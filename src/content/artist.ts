@@ -10,8 +10,8 @@ export const artist = {
     "This site exists to preserve access to his work and to honor the legacy he left behind for listeners around the world.",
   ],
   images: {
-    hero: "/images/elijah-hero.jpg",
-    about: "/images/elijah-profile.jpg",
+    hero: "/images/elijah-hero.png",
+    about: "/images/elijah-profile.png",
     studio: "/images/elijah-studio.jpg",
     silhouette: "/images/elijah-silhouette.jpg",
     artwork: "/images/elijah-artwork.jpg",
