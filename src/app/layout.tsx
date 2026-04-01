@@ -32,11 +32,11 @@ export default function RootLayout({
         <div className="texture-overlay" aria-hidden="true" />
 
         {/* ── Navigation ── */}
-        <nav className="fixed top-0 left-0 right-0 z-40 bg-bg/80 backdrop-blur-md border-b border-border/50">
-          <div className="max-w-6xl mx-auto px-6 flex items-center justify-between h-14">
+        <header className="fixed top-0 left-0 right-0 z-40 bg-bg/80 backdrop-blur-md border-b border-border/40">
+          <nav className="max-w-6xl mx-auto px-6 flex items-center justify-between h-14">
             <a
               href="#"
-              className="text-sm font-medium tracking-wide text-text hover:text-accent transition-colors"
+              className="text-sm font-medium tracking-wide text-text hover:text-accent transition-colors duration-200"
             >
               Nang Soul
             </a>
@@ -45,17 +45,17 @@ export default function RootLayout({
                 <li key={link.href}>
                   <a
                     href={link.href}
-                    className="text-xs tracking-[0.15em] uppercase text-text-muted hover:text-accent transition-colors duration-200"
+                    className="text-[11px] tracking-[0.18em] uppercase text-text-muted hover:text-accent transition-colors duration-200"
                   >
                     {link.label}
                   </a>
                 </li>
               ))}
             </ul>
-          </div>
-        </nav>
+          </nav>
+        </header>
 
-        {children}
+        <main className="flex-1">{children}</main>
       </body>
     </html>
   );

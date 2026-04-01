@@ -9,7 +9,13 @@ export const artist = {
     'He often described his work as more than music — an "audio novel." Each project felt like a chapter, carrying listeners through vivid, cinematic worlds filled with emotion, memory, and story.',
     "This site exists to preserve access to his work and to honor the legacy he left behind for listeners around the world.",
   ],
-  heroImage: "/images/elijah-nang-hero.jpg",
+  images: {
+    hero: "/images/elijah-hero.jpg",
+    about: "/images/elijah-profile.jpg",
+    studio: "/images/elijah-studio.jpg",
+    silhouette: "/images/elijah-silhouette.jpg",
+    artwork: "/images/elijah-artwork.jpg",
+  },
   links: [
     { label: "YouTube", url: "https://www.youtube.com/@elijahnang90" },
     {
