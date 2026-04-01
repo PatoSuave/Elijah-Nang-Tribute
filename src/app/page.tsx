@@ -8,16 +8,14 @@ export default function Home() {
           HERO — Two-column with portrait
           ═══════════════════════════════════════════ */}
       <section className="relative min-h-screen flex items-center overflow-hidden pt-14">
-        <div className="hero-atmosphere" aria-hidden="true" />
-
         <div className="relative z-10 w-full max-w-6xl mx-auto px-6 py-20 md:py-28">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
             {/* Text column */}
-            <div className="order-2 lg:order-1">
+            <div className="hero-text-backing order-2 lg:order-1">
               <p className="text-accent tracking-[0.35em] uppercase text-[11px] font-medium mb-6">
                 Memorial Archive
               </p>
-              <h1 className="text-5xl sm:text-6xl lg:text-7xl font-extralight tracking-tight leading-[1.05] mb-5">
+              <h1 className="text-5xl sm:text-6xl lg:text-7xl font-light tracking-tight leading-[1.05] mb-5 text-text">
                 {artist.name}
               </h1>
               <p className="text-text-muted text-base sm:text-lg tracking-wide">
@@ -25,19 +23,19 @@ export default function Home() {
                 <span className="mx-3 text-text-dim">~</span>
                 {artist.alias}
               </p>
-              <p className="text-text-muted text-base sm:text-lg leading-relaxed mt-8 max-w-md">
+              <p className="text-text/70 text-base sm:text-lg leading-relaxed mt-8 max-w-md">
                 {artist.tagline}
               </p>
               <div className="flex flex-wrap gap-4 mt-12">
                 <a
                   href="#works"
-                  className="inline-block border border-accent/30 hover:border-accent/60 hover:bg-accent/5 rounded-md px-7 py-3 text-sm tracking-wide text-accent transition-all duration-300"
+                  className="inline-block bg-accent/90 hover:bg-accent text-bg font-medium rounded-md px-7 py-3 text-sm tracking-wide transition-all duration-300"
                 >
                   Explore the Music
                 </a>
                 <a
                   href="#about"
-                  className="inline-block border border-border hover:border-border-hover rounded-md px-7 py-3 text-sm tracking-wide text-text-muted hover:text-text transition-all duration-300"
+                  className="inline-block border border-border hover:border-text-muted/40 rounded-md px-7 py-3 text-sm tracking-wide text-text-muted hover:text-text transition-all duration-300"
                 >
                   About Elijah
                 </a>
@@ -45,8 +43,8 @@ export default function Home() {
             </div>
 
             {/* Portrait column */}
-            <div className="order-1 lg:order-2 flex justify-center lg:justify-end">
-              <div className="portrait-vignette w-full max-w-xs sm:max-w-sm lg:max-w-md">
+            <div className="order-1 lg:order-2 flex justify-center lg:justify-end relative z-10">
+              <div className="hero-portrait w-full max-w-[280px] sm:max-w-[320px] lg:max-w-[380px]">
                 <Image
                   src={artist.images.hero}
                   alt={`Portrait of ${artist.name}`}

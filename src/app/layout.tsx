@@ -31,6 +31,7 @@ export default function RootLayout({
       <body className="min-h-screen flex flex-col">
         {/* ── Fixed background image ── */}
         <div className="site-bg-image" aria-hidden="true" />
+        <div className="site-bg-scrim" aria-hidden="true" />
         <div className="texture-overlay" aria-hidden="true" />
 
         {/* ── Navigation ── */}
