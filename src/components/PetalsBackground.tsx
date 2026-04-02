@@ -29,7 +29,7 @@ export default function PetalsBackground() {
 
   return (
     <div
-      className="absolute inset-0 z-[1] pointer-events-none overflow-hidden"
+      className="fixed inset-0 z-[1] pointer-events-none overflow-hidden"
       aria-hidden="true"
     >
       {/* Video layer */}

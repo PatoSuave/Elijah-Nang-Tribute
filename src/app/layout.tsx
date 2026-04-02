@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import MiniPlayer from "@/components/MiniPlayer";
+import PetalsBackground from "@/components/PetalsBackground";
 
 export const metadata: Metadata = {
   title: "Elijah Nang — A Tribute",
@@ -30,8 +31,9 @@ export default function RootLayout({
   return (
     <html lang="en" className="antialiased">
       <body className="min-h-screen flex flex-col">
-        {/* ── Fixed background image ── */}
+        {/* ── Fixed background layers ── */}
         <div className="site-bg-image" aria-hidden="true" />
+        <PetalsBackground />
         <div className="site-bg-scrim" aria-hidden="true" />
         <div className="texture-overlay" aria-hidden="true" />
 

@@ -1,7 +1,5 @@
 import Image from "next/image";
 import { artist } from "@/content/artist";
-import PetalsBackground from "@/components/PetalsBackground";
-
 export default function Home() {
   return (
     <>
@@ -9,7 +7,6 @@ export default function Home() {
           HERO — Two-column with portrait
           ═══════════════════════════════════════════ */}
       <section className="relative min-h-screen flex items-center overflow-hidden pt-14">
-        <PetalsBackground />
         <div className="relative z-10 w-full max-w-6xl mx-auto px-6 py-20 md:py-28">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
             {/* Text column */}
