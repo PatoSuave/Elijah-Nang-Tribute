@@ -6,9 +6,9 @@
   --color-surface-raised: #161618;
   --color-border: #1c1c20;
   --color-border-hover: #2a2a30;
-  --color-text: #ece9e1;
-  --color-text-muted: #7d7a72;
-  --color-text-dim: #4a4843;
+  --color-text: #f5f3ef;
+  --color-text-muted: #a8a49b;
+  --color-text-dim: #6b6760;
   --color-accent: #d4a55a;
   --color-accent-muted: #a8844a;
   --color-amber-glow: rgba(212, 165, 90, 0.06);
@@ -58,8 +58,8 @@ body {
   background: radial-gradient(
     ellipse 80% 70% at 50% 40%,
     transparent 0%,
-    rgba(9, 9, 11, 0.6) 60%,
-    rgba(9, 9, 11, 0.85) 100%
+    rgba(9, 9, 11, 0.45) 60%,
+    rgba(9, 9, 11, 0.7) 100%
   );
 }
 
