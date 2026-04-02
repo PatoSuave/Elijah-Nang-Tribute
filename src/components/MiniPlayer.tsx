@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 
 const SOUNDCLOUD_URL =
-  "https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/users/elijahnang&color=%23d4a55a&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false&visual=false";
+  "https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/elijahnang/ho-chi-minh-city-beat-255&color=%23c28a36&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false";
 
 export default function MiniPlayer() {
   const [visible, setVisible] = useState(false);
