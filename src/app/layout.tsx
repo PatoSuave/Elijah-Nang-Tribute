@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import MiniPlayer from "@/components/MiniPlayer";
 
 export const metadata: Metadata = {
   title: "Elijah Nang — A Tribute",
@@ -59,6 +60,7 @@ export default function RootLayout({
         </header>
 
         <main className="flex-1">{children}</main>
+        <MiniPlayer />
       </body>
     </html>
   );
