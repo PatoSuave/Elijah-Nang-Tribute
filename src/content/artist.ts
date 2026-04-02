@@ -5,9 +5,10 @@ export const artist = {
   domain: "nangsoul.com",
   tagline: "A memorial archive of the music and legacy of Elijah Nang.",
   bio: [
-    "Elijah Nang, known through his project name Nang Soul, was a London-based experimental electronic artist whose music blended lo-fi textures, jazz influence, electronica, and East Asian elements into a sound that was uniquely his own.",
-    'He often described his work as more than music — an "audio novel." Each project felt like a chapter, carrying listeners through vivid, cinematic worlds filled with emotion, memory, and story.',
-    "This site exists to preserve access to his work and to honor the legacy he left behind for listeners around the world.",
+    "Elijah Nang, known through his project name Nang Soul, was a London-based producer, visual artist, and self-described audio novelist whose work turned instrumental music into narrative space. His sound blended lo-fi textures, jazz influence, electronica, and East Asian elements into something uniquely his own — rooted in atmosphere, memory, and movement.",
+    "He often described his work as more than music, but as an audio novel. Each project felt like a chapter, carrying listeners through vivid, cinematic worlds shaped by emotion, reflection, and story. Across releases such as Lost in Japan, Gaijin, and Nang Soul, he fused visual imagination, worldbuilding, and a deeply personal sense of storytelling into music that felt immersive rather than incidental.",
+    "Photography, videography, illustration, and visual culture were not separate from his music, but part of the same creative language, helping shape the worlds his listeners stepped into. Whether through intimate beat tapes or larger conceptual projects, Elijah made work that invited people to slow down, imagine, and feel.",
+    "Elijah passed away in 2023, but the world he created remains. This site exists to preserve access to his work and to honor the legacy he left behind for listeners around the world.",
   ],
   images: {
     hero: "/images/elijah-hero.png",
