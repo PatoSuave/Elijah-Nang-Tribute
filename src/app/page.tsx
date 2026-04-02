@@ -199,47 +199,44 @@ export default function Home() {
       </section>
 
       {/* ═══════════════════════════════════════════
-          MEMORIAL BANNER — Silhouette image
+          CLOSING MEMORIAL — Subtle image with single line
           ═══════════════════════════════════════════ */}
-      <section className="memorial-banner relative h-[50vh] md:h-[60vh] flex items-center justify-center">
+      <section className="memorial-closing relative h-[28vh] md:h-[32vh] flex items-center justify-center overflow-hidden">
         <Image
           src={artist.images.silhouette}
           alt={`${artist.name} silhouette`}
           fill
-          className="object-cover object-center opacity-40"
+          className="object-cover object-center opacity-20"
         />
-        <div className="relative z-10 text-center px-6">
-          <p className="text-accent/70 tracking-[0.4em] uppercase text-[11px] mb-4">
-            Rest in peace
-          </p>
-          <p className="text-3xl sm:text-4xl md:text-5xl font-extralight tracking-tight text-text/90">
-            {artist.name}
-          </p>
-          <p className="text-text-muted text-sm tracking-widest mt-4">
-            {artist.years}
-          </p>
-        </div>
+        {/* Heavy overlay for readability */}
+        <div
+          className="absolute inset-0 bg-bg/70 z-[1]"
+          aria-hidden="true"
+        />
+        <p className="relative z-10 text-lg sm:text-xl md:text-2xl font-extralight tracking-wide text-text/80 text-center px-6 italic">
+          The music lives on.
+        </p>
       </section>
 
       {/* ═══════════════════════════════════════════
           FOOTER
           ═══════════════════════════════════════════ */}
-      <footer className="border-t border-border/40 py-16 md:py-20">
-        <div className="max-w-3xl mx-auto px-6 text-center">
-          <p className="text-text-muted text-xs leading-relaxed max-w-lg mx-auto">
+      <div className="section-divider" aria-hidden="true" />
+
+      <footer className="bg-bg py-14 md:py-16">
+        <div className="max-w-2xl mx-auto px-6 text-center">
+          <p className="text-text-muted text-[13px] leading-relaxed max-w-md mx-auto">
             This is an unofficial memorial archive created to honor{" "}
             {artist.name}. All music, video artwork, names, logos, and
             platform content belong to their respective owners.
           </p>
-          <div className="flex items-center justify-center gap-3 mt-10">
-            <div className="w-5 h-5 rounded-full border border-border flex items-center justify-center">
-              <span className="text-accent text-[8px]">&#9834;</span>
-            </div>
-            <span className="text-sm font-medium tracking-wide text-text-muted">
-              {artist.alias}
-            </span>
-          </div>
-          <p className="text-text-dim text-[11px] mt-3 tracking-widest">
+
+          <div className="section-divider max-w-xs mx-auto my-8" />
+
+          <p className="text-text/60 text-sm font-medium tracking-widest uppercase">
+            {artist.alias}
+          </p>
+          <p className="text-text-dim text-xs mt-2 tracking-widest">
             {artist.domain}
           </p>
         </div>

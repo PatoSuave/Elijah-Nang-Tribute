@@ -145,25 +145,9 @@ body {
   );
 }
 
-/* ── Memorial banner ── */
-.memorial-banner {
+/* ── Closing memorial section ── */
+.memorial-closing {
   position: relative;
-  overflow: hidden;
-}
-
-.memorial-banner::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    to bottom,
-    var(--color-bg) 0%,
-    transparent 15%,
-    transparent 85%,
-    var(--color-bg) 100%
-  );
-  z-index: 1;
-  pointer-events: none;
 }
 
 /* ── Card warm glow on hover ── */
