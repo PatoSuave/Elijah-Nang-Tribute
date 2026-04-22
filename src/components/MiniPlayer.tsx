@@ -10,7 +10,7 @@ export default function MiniPlayer() {
   const [dismissed, setDismissed] = useState(false);
 
   useEffect(() => {
-    const timer = setTimeout(() => setVisible(true), 2000);
+    const timer = setTimeout(() => setVisible(true), 2500);
     return () => clearTimeout(timer);
   }, []);
 
@@ -19,25 +19,31 @@ export default function MiniPlayer() {
   return (
     <div
       className={`
-        fixed z-40 transition-all duration-700 ease-out
-        bottom-4 right-4
-        sm:bottom-6 sm:right-6
-        left-4 sm:left-auto
-        sm:w-[320px]
-        ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-3 pointer-events-none"}
+        fixed z-40 transition-all duration-1000 cubic-bezier(0.16, 1, 0.3, 1)
+        bottom-6 right-6
+        left-6 sm:left-auto
+        sm:w-[340px]
+        ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8 pointer-events-none"}
       `}
       role="complementary"
       aria-label="Music player"
     >
-      <div className="relative bg-surface/90 backdrop-blur-md border border-border rounded-xl shadow-[0_8px_32px_rgba(0,0,0,0.5)] overflow-hidden">
+      <div className="relative bg-surface/80 backdrop-blur-xl border border-white/5 rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.5)] overflow-hidden group">
         {/* Header bar */}
-        <div className="flex items-center justify-between px-4 py-2.5 border-b border-border/60">
-          <span className="text-[10px] tracking-[0.2em] uppercase text-accent-muted font-medium">
-            Now Playing
-          </span>
+        <div className="flex items-center justify-between px-5 py-3 border-b border-white/5">
+          <div className="flex items-center gap-2.5">
+            <div className="flex gap-1">
+              <span className="w-0.5 h-3 bg-accent animate-[pulse_1s_ease-in-out_infinite]" />
+              <span className="w-0.5 h-3 bg-accent animate-[pulse_1s_ease-in-out_infinite_0.2s]" />
+              <span className="w-0.5 h-3 bg-accent animate-[pulse_1s_ease-in-out_infinite_0.4s]" />
+            </div>
+            <span className="text-[10px] tracking-[0.25em] uppercase text-accent/80 font-semibold">
+              Archive Audio
+            </span>
+          </div>
           <button
             onClick={() => setDismissed(true)}
-            className="text-text-dim hover:text-text-muted transition-colors duration-200 text-xs leading-none p-1 -mr-1"
+            className="text-text-dim hover:text-text-muted transition-colors duration-200 text-xs leading-none p-1.5 rounded-full hover:bg-white/5"
             aria-label="Dismiss player"
           >
             &#x2715;
@@ -45,7 +51,7 @@ export default function MiniPlayer() {
         </div>
 
         {/* SoundCloud embed */}
-        <div className="h-[80px]">
+        <div className="h-[80px] bg-black/20">
           <iframe
             title="Elijah Nang on SoundCloud"
             width="100%"
@@ -54,6 +60,7 @@ export default function MiniPlayer() {
             frameBorder="no"
             allow="autoplay"
             src={SOUNDCLOUD_URL}
+            className="grayscale opacity-90 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-500"
           />
         </div>
       </div>
