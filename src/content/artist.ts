@@ -10,6 +10,11 @@ export const artist = {
     "Photography, videography, illustration, and visual culture were not separate from his music, but part of the same creative language, helping shape the worlds his listeners stepped into. Whether through intimate beat tapes or larger conceptual projects, Elijah made work that invited people to slow down, imagine, and feel.",
     "Elijah passed away in 2023, but the world he created remains. This site exists to preserve access to his work and to honor the legacy he left behind for listeners around the world.",
   ],
+  legacy: {
+    heading: "Building Worlds",
+    text: "Across projects like Gaijin, Lost in Japan, and the Nang Soul series, Elijah Nang built more than songs. He built worlds. His music invited listeners into places that felt reflective, transportive, and unmistakably personal. This archive is here to preserve a path back to that work.",
+    quote: "Each project felt like a chapter, carrying listeners through vivid, cinematic worlds filled with emotion, memory, and story.",
+  },
   images: {
     hero: "/images/elijah-hero.png",
     about: "/images/elijah-profile.png",
@@ -32,26 +37,44 @@ export const artist = {
     {
       title: "Gaijin",
       type: "Album",
-      description:
-        "A sweeping journey through East-Asian inspired soundscapes, blending traditional instrumentation with modern production.",
-      listenUrl: "https://open.spotify.com/artist/0yIO6HI875mLzamqmjjFFU",
+      description: "A defining project and sweeping journey through East-Asian inspired soundscapes.",
+      listenUrl: "https://open.spotify.com/album/3Mz0drsWHgVg5zTm60ncdl",
+      listenLabel: "Listen on Spotify",
+    },
+    {
+      title: "Gaijin II Tale of Rai",
+      type: "Album",
+      description: "A continuation of the sonic world established in Gaijin, weaving narrative and atmosphere.",
+      listenUrl: "https://open.spotify.com/album/79ynbZwBXsmdFZw8Oa0FMK",
       listenLabel: "Listen on Spotify",
     },
     {
       title: "Misogi",
       type: "Album",
-      description:
-        "An introspective album rooted in purification and renewal, layered with ambient textures and soulful melodies.",
-      listenUrl: "https://open.spotify.com/artist/0yIO6HI875mLzamqmjjFFU",
+      description: "An introspective album rooted in purification and renewal, layered with ambient textures.",
+      listenUrl: "https://open.spotify.com/album/43E2P5I9w7eU24Qh9yG9X8",
       listenLabel: "Listen on Spotify",
     },
     {
       title: "The Wonderland",
       type: "Album",
-      description:
-        "A dreamlike exploration of sound — whimsical, warm, and hauntingly beautiful from start to finish.",
-      listenUrl: "https://soundcloud.com/elijahnang",
+      description: "A dreamlike exploration of sound — whimsical, warm, and hauntingly beautiful.",
+      listenUrl: "https://soundcloud.com/elijahnang/sets/the-wonderland-album",
       listenLabel: "Listen on SoundCloud",
     },
+    {
+      title: "Nang Soul Vol.3 / Akira",
+      type: "Beat Tape",
+      description: "A project reflecting the broader Nang Soul identity and rhythmic exploration.",
+      listenUrl: "https://soundcloud.com/elijahnang/nang-soul-vol3-akira-full-beat-tape",
+      listenLabel: "Listen on SoundCloud",
+    },
+    {
+      title: "Lost in Japan",
+      type: "Album",
+      description: "A foundational work exploring memory and setting through a lo-fi lens.",
+      listenUrl: "https://open.spotify.com/album/28T6D6L0M6K8ZJ6w1K7z5P",
+      listenLabel: "Listen on Spotify",
+    }
   ],
 };
