@@ -59,6 +59,7 @@ export default function MiniPlayer() {
             scrolling="no"
             frameBorder="no"
             allow="autoplay"
+            loading="lazy"
             src={SOUNDCLOUD_URL}
             className="grayscale opacity-90 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-500"
           />
