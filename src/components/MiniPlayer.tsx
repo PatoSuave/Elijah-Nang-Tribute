@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 
 const SOUNDCLOUD_URL =
-  "https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/elijahnang/ho-chi-minh-city-beat-255&color=%23c28a36&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false";
+  "https://w.soundcloud.com/player/?visual=false&url=https%3A%2F%2Fapi.soundcloud.com%2Ftracks%2F1952326379&show_artwork=true&color=%23d4a55a&auto_play=false&hide_related=false&show_comments=false&show_user=true&show_reposts=false&show_teaser=false";
 
 export default function MiniPlayer() {
   const [visible, setVisible] = useState(false);
@@ -22,7 +22,7 @@ export default function MiniPlayer() {
         fixed z-40 transition-all duration-1000 cubic-bezier(0.16, 1, 0.3, 1)
         bottom-6 right-6
         left-6 sm:left-auto
-        sm:w-[340px]
+        sm:w-[420px]
         ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8 pointer-events-none"}
       `}
       role="complementary"
@@ -51,14 +51,15 @@ export default function MiniPlayer() {
         </div>
 
         {/* SoundCloud embed */}
-        <div className="h-[80px] bg-black/20">
+        <div className="h-[166px] bg-black/20">
           <iframe
-            title="Elijah Nang on SoundCloud"
+            title="Ho Chi Minh City (Beat 255) by Elijah Nang on SoundCloud"
             width="100%"
-            height="80"
+            height="166"
             scrolling="no"
             frameBorder="no"
-            allow="autoplay"
+            allow="autoplay; encrypted-media"
+            loading="lazy"
             src={SOUNDCLOUD_URL}
             className="grayscale opacity-90 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-500"
           />

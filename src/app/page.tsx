@@ -1,265 +1,246 @@
 import Image from "next/image";
 import { artist } from "@/content/artist";
 
+const SOUNDCLOUD_URL =
+  "https://w.soundcloud.com/player/?visual=true&url=https%3A%2F%2Fapi.soundcloud.com%2Ftracks%2F1952326379&show_artwork=true&color=%23d4a55a&auto_play=false&hide_related=false&show_comments=false&show_user=true&show_reposts=false&show_teaser=false";
+
+const archiveStats = [
+  { label: "Mode", value: "Audio novel" },
+  { label: "Archive", value: artist.alias },
+  { label: "Era", value: artist.years },
+  { label: "Worlds", value: "Gaijin / Misogi / Akira" },
+];
+
+const chapterNotes = [
+  "A sweeping journey through East-Asian inspired soundscapes.",
+  "A continuation of the world established in Gaijin.",
+  "An introspective album rooted in purification and renewal.",
+  "A dreamlike exploration of warmth, memory, and wonder.",
+  "A rhythmic look into the broader Nang Soul identity.",
+  "A foundational project shaped by setting and memory.",
+];
+
 export default function Home() {
   return (
-    <>
-      {/* ═══════════════════════════════════════════
-          HERO — Two-column with portrait
-          ═══════════════════════════════════════════ */}
-      <section className="relative min-h-screen flex items-center overflow-hidden pt-14">
-        <div className="relative z-10 w-full max-w-6xl mx-auto px-6 py-20 md:py-28">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
-            {/* Text column */}
-            <div className="hero-text-backing order-2 lg:order-1 reveal">
-              <p className="text-accent tracking-[0.35em] uppercase text-[11px] font-medium mb-6">
-                Memorial Archive
-              </p>
-              <h1 className="font-serif text-6xl sm:text-7xl lg:text-8xl font-normal tracking-tight leading-[0.95] mb-6 text-text">
-                {artist.name}
-              </h1>
-              <p className="text-text-muted text-base sm:text-lg tracking-[0.1em] font-light">
-                {artist.years}
-                <span className="mx-4 text-text-dim/50 font-serif">~</span>
-                {artist.alias}
-              </p>
-              <p className="text-text/70 text-lg sm:text-xl leading-relaxed mt-10 max-w-md font-light italic">
-                &ldquo;{artist.tagline}&rdquo;
-              </p>
-              <div className="flex flex-wrap gap-5 mt-14">
-                <a
-                  href="#works"
-                  className="inline-block bg-accent/90 hover:bg-accent text-bg font-medium rounded-md px-8 py-4 text-sm tracking-widest uppercase transition-all duration-300"
-                >
-                  Explore the Music
-                </a>
-                <a
-                  href="#about"
-                  className="inline-block border border-border hover:border-text-muted/40 rounded-md px-8 py-4 text-sm tracking-widest uppercase text-text-muted hover:text-text transition-all duration-300"
-                >
-                  About Elijah
-                </a>
-              </div>
-            </div>
+    <article className="site-shell">
+      <section className="portal-hero" id="overview">
+        <Image
+          src={artist.images.silhouette}
+          alt=""
+          fill
+          priority
+          className="portal-hero-silhouette"
+          aria-hidden="true"
+        />
+        <div className="portal-hero-wash" aria-hidden="true" />
 
-            {/* Portrait column */}
-            <div className="order-1 lg:order-2 flex justify-center lg:justify-end relative z-10 reveal delay-200">
-              <div className="hero-portrait w-full max-w-[300px] sm:max-w-[340px] lg:max-w-[420px]">
-                <Image
-                  src={artist.images.hero}
-                  alt={`Portrait of ${artist.name}`}
-                  width={600}
-                  height={750}
-                  priority
-                  className="w-full h-auto object-cover"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ═══════════════════════════════════════════
-          ABOUT — Photo + bio side by side
-          ═══════════════════════════════════════════ */}
-      <div className="section-divider max-w-5xl mx-auto opacity-30" />
-
-      <section id="about" className="scroll-mt-20 max-w-6xl mx-auto px-6 py-28 md:py-48">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20 items-start">
-          {/* Photo — Left side */}
-          <div className="lg:col-span-5 reveal">
-            <p className="text-accent tracking-[0.3em] uppercase text-[11px] font-medium mb-8">
-              Biography
+        <div className="portal-hero-grid">
+          <div className="hero-copy reveal">
+            <p className="section-kicker">Nang World Portal / Memorial Archive</p>
+            <h1 className="portal-title">
+              <span>Nang Soul</span>
+              <span>Elijah Nang</span>
+            </h1>
+            <p className="hero-years">{artist.years}</p>
+            <p className="hero-intro">
+              {artist.tagline} A place to listen first, then move through the
+              worlds he built as chapters in an audio novel.
             </p>
-            <div className="portrait-vignette aspect-[4/5] relative">
-              <Image
-                src={artist.images.about}
-                alt={`${artist.name} portrait`}
-                fill
-                className="object-cover grayscale"
+
+            <div className="hero-actions">
+              <a className="primary-action" href="#listen">
+                Start Listening
+              </a>
+              <a className="secondary-action" href="#works">
+                Browse Chapters
+              </a>
+            </div>
+
+            <div className="listening-room" id="listen">
+              <div className="listening-room-header">
+                <div>
+                  <p className="micro-label">SoundCloud Player</p>
+                  <h2>Ho Chi Minh City Beat 255</h2>
+                </div>
+                <a
+                  href="https://soundcloud.com/elijahnang/ho-chi-minh-city-beat-255"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Open on SoundCloud
+                </a>
+              </div>
+              <iframe
+                title="Ho Chi Minh City (Beat 255) by Elijah Nang on SoundCloud"
+                width="100%"
+                height="400"
+                scrolling="no"
+                frameBorder="no"
+                allow="autoplay; encrypted-media"
+                loading="lazy"
+                src={SOUNDCLOUD_URL}
               />
             </div>
           </div>
 
-          {/* Bio text — Right side */}
-          <div className="lg:col-span-7 space-y-8 lg:pt-16 reveal delay-200">
-            <h2 className="font-serif text-4xl sm:text-5xl font-normal tracking-tight mb-4">
-              An Audio Novelist
-            </h2>
-            <div className="space-y-6">
-              {artist.bio.map((paragraph, i) => (
-                <p
-                  key={i}
-                  className="text-lg sm:text-xl leading-[1.7] font-light text-text/80"
-                >
-                  {paragraph}
-                </p>
+          <aside className="hero-visual-stack reveal delay-200">
+            <div className="portrait-panel">
+              <Image
+                src={artist.images.hero}
+                alt={`Portrait of ${artist.name}`}
+                width={620}
+                height={700}
+                priority
+                className="portrait-panel-image"
+              />
+              <div className="portrait-caption">
+                <span>Audio Novelist</span>
+                <strong>{artist.alias}</strong>
+              </div>
+            </div>
+
+            <div className="chapter-rail" aria-label="Featured chapters">
+              <p className="micro-label">Chapters</p>
+              {artist.featuredWorks.slice(0, 4).map((work, index) => (
+                <a key={work.title} href="#works" className="chapter-rail-row">
+                  <span>{String(index + 1).padStart(2, "0")}</span>
+                  <strong>{work.title}</strong>
+                </a>
               ))}
             </div>
+          </aside>
+        </div>
+      </section>
+
+      <section className="archive-band" aria-label="Archive metadata">
+        <div className="archive-stat-grid">
+          {archiveStats.map((item) => (
+            <div key={item.label} className="archive-stat">
+              <span>{item.label}</span>
+              <strong>{item.value}</strong>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section id="about" className="editorial-section about-section">
+        <div className="section-heading reveal">
+          <p className="section-kicker">Origin File</p>
+          <h2>The person behind the portal.</h2>
+        </div>
+
+        <div className="about-grid">
+          <div className="about-image reveal">
+            <Image
+              src={artist.images.about}
+              alt={`${artist.name} portrait`}
+              fill
+              className="object-cover grayscale"
+            />
+          </div>
+
+          <div className="bio-copy reveal delay-200">
+            {artist.bio.map((paragraph) => (
+              <p key={paragraph}>{paragraph}</p>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* ═══════════════════════════════════════════
-          FEATURED WORKS — Premium cards
-          ═══════════════════════════════════════════ */}
-      <div className="section-divider max-w-5xl mx-auto opacity-30" />
-
-      <section id="works" className="scroll-mt-20 max-w-6xl mx-auto px-6 py-28 md:py-48">
-        <div className="text-center mb-20 reveal">
-          <p className="text-accent tracking-[0.35em] uppercase text-[11px] font-medium mb-4">
-            Archive
-          </p>
-          <h2 className="font-serif text-4xl sm:text-5xl lg:text-6xl font-normal tracking-tight">
-            Selected Works
-          </h2>
-          <p className="text-text-muted mt-6 max-w-xl mx-auto font-light leading-relaxed">
-            A curated selection of projects that define Elijah Nang&rsquo;s cinematic sound and narrative world-building.
+      <section id="works" className="editorial-section works-section">
+        <div className="works-header reveal">
+          <div>
+            <p className="section-kicker">World Chapters</p>
+            <h2>Enter the records like places.</h2>
+          </div>
+          <p>
+            Option 3 puts the work up front: each release reads as a world,
+            a mood, and a doorway back into the music.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 reveal delay-200">
-          {artist.featuredWorks.map((work) => (
+        <div className="chapter-grid reveal delay-200">
+          {artist.featuredWorks.map((work, index) => (
             <a
               key={work.title}
               href={work.listenUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="card-glow group bg-surface border border-border/60 rounded-xl p-8 hover:border-accent/30 transition-all duration-500 flex flex-col h-full"
+              className="chapter-card"
             >
-              <div className="flex justify-between items-start mb-6">
-                <span className="text-accent-muted text-[10px] tracking-[0.3em] uppercase font-semibold">
-                  {work.type}
-                </span>
-                <span className="link-arrow text-accent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  &#x2197;
-                </span>
-              </div>
-              <h3 className="font-serif text-3xl font-normal tracking-wide mb-4 text-text group-hover:text-accent transition-colors duration-300">
-                {work.title}
-              </h3>
-              <p className="text-text-muted/80 text-base leading-relaxed mb-10 flex-1 font-light">
-                {work.description}
-              </p>
-              <span className="text-[11px] tracking-[0.2em] uppercase text-text-dim group-hover:text-accent-muted transition-colors duration-300 font-medium">
-                {work.listenLabel}
+              <span className="chapter-number">
+                {String(index + 1).padStart(2, "0")}
               </span>
+              <span className="chapter-type">{work.type}</span>
+              <h3>{work.title}</h3>
+              <p>{chapterNotes[index] ?? work.description}</p>
+              <span className="chapter-link">{work.listenLabel}</span>
             </a>
           ))}
         </div>
       </section>
 
-      {/* ═══════════════════════════════════════════
-          LEGACY — New cinematic section
-          ═══════════════════════════════════════════ */}
-      <div className="section-divider max-w-5xl mx-auto opacity-30" />
+      <section className="world-section">
+        <div className="world-image reveal">
+          <Image
+            src={artist.images.studio}
+            alt={`${artist.name} in the studio`}
+            fill
+            className="object-cover grayscale"
+          />
+        </div>
 
-      <section className="max-w-6xl mx-auto px-6 py-28 md:py-48">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 items-center">
-          <div className="reveal order-2 lg:order-1">
-            <h2 className="font-serif text-4xl sm:text-5xl font-normal tracking-tight mb-8">
-              {artist.legacy.heading}
-            </h2>
-            <p className="text-lg sm:text-xl leading-[1.8] font-light text-text/80 mb-10">
-              {artist.legacy.text}
-            </p>
-            <blockquote className="border-l-2 border-accent/40 pl-8 py-2 italic text-xl text-text/70 font-light">
-              &ldquo;{artist.legacy.quote}&rdquo;
-            </blockquote>
-          </div>
-          <div className="reveal delay-200 order-1 lg:order-2">
-            <div className="portrait-vignette aspect-video relative">
-              <Image
-                src={artist.images.studio}
-                alt={`${artist.name} in the studio`}
-                fill
-                className="object-cover grayscale"
-              />
-            </div>
-          </div>
+        <div className="world-copy reveal delay-200">
+          <p className="section-kicker">Legacy</p>
+          <h2>{artist.legacy.heading}</h2>
+          <p>{artist.legacy.text}</p>
+          <blockquote>&ldquo;{artist.legacy.quote}&rdquo;</blockquote>
         </div>
       </section>
 
-      {/* ═══════════════════════════════════════════
-          PLATFORMS — Modernized grid
-          ═══════════════════════════════════════════ */}
-      <div className="section-divider max-w-5xl mx-auto opacity-30" />
-
-      <section id="listen" className="scroll-mt-20 max-w-6xl mx-auto px-6 py-28 md:py-48">
-        <div className="text-center mb-16 reveal">
-          <p className="text-accent tracking-[0.3em] uppercase text-[11px] font-medium mb-4">
-            Presence
-          </p>
-          <h2 className="font-serif text-4xl sm:text-5xl font-normal tracking-tight">
-            Digital Archive
-          </h2>
+      <section id="links" className="editorial-section platforms-section">
+        <div className="section-heading reveal">
+          <p className="section-kicker">Exit Points</p>
+          <h2>Keep exploring the archive.</h2>
         </div>
 
-        <div id="links" className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 reveal delay-200">
+        <div className="platform-list reveal delay-200">
           {artist.links.map((link) => (
             <a
               key={link.label}
               href={link.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="card-glow group flex flex-col items-center justify-center gap-3 bg-surface border border-border/40 rounded-lg p-6 text-center hover:border-accent/20 transition-all duration-300"
             >
-              <span className="text-[11px] tracking-[0.2em] uppercase text-text-muted group-hover:text-accent transition-colors duration-200">
-                {link.label}
-              </span>
-              <span className="text-accent/40 group-hover:text-accent transition-colors duration-200 text-xs">
-                &#x2197;
-              </span>
+              <span>{link.label}</span>
+              <strong>Open archive</strong>
             </a>
           ))}
         </div>
       </section>
 
-      {/* ═══════════════════════════════════════════
-          CLOSING MEMORIAL — Subtle image with single line
-          ═══════════════════════════════════════════ */}
-      <section className="memorial-closing relative h-[35vh] md:h-[45vh] flex items-center justify-center overflow-hidden">
+      <section className="memorial-close">
         <Image
-          src={artist.images.silhouette}
-          alt={`${artist.name} silhouette`}
+          src={artist.images.artwork}
+          alt=""
           fill
-          className="object-cover object-center opacity-15 grayscale scale-110"
-        />
-        <div
-          className="absolute inset-0 bg-bg/80 z-[1]"
+          className="memorial-close-art"
           aria-hidden="true"
         />
-        <div className="relative z-10 text-center px-6 reveal">
-          <p className="text-2xl sm:text-3xl md:text-4xl font-serif tracking-wide text-text/90 italic mb-4">
-            The music lives on.
-          </p>
-          <p className="text-accent/60 tracking-[0.4em] uppercase text-[10px] font-medium">
-            1991 &mdash; 2023
-          </p>
+        <div>
+          <p>The music lives on.</p>
+          <span>{artist.years}</span>
         </div>
       </section>
 
-      {/* ═══════════════════════════════════════════
-          FOOTER
-          ═══════════════════════════════════════════ */}
-      <footer className="bg-bg py-20 md:py-24 border-t border-border/20">
-        <div className="max-w-2xl mx-auto px-6 text-center">
-          <p className="text-text-muted text-[13px] leading-relaxed max-w-md mx-auto font-light">
-            This is an unofficial memorial archive created to honor{" "}
-            {artist.name}. All music, video artwork, names, logos, and
-            platform content belong to their respective owners.
-          </p>
-
-          <div className="w-12 h-[1px] bg-border/60 mx-auto my-12" />
-
-          <p className="font-serif text-2xl text-text/80 mb-2">
-            {artist.alias}
-          </p>
-          <p className="text-text-dim text-[10px] tracking-[0.3em] uppercase">
-            {artist.domain}
-          </p>
-        </div>
+      <footer className="site-footer">
+        <p>
+          This is an unofficial memorial archive created to honor {artist.name}.
+          All music, video artwork, names, logos, and platform content belong to
+          their respective owners.
+        </p>
+        <strong>{artist.domain}</strong>
       </footer>
-    </>
+    </article>
   );
 }
