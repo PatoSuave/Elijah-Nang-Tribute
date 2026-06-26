@@ -204,6 +204,7 @@ iframe {
 .selected-works,
 .about-band,
 .link-groups,
+.contact-band,
 .site-footer {
   width: min(100%, 76rem);
   margin: 0 auto;
@@ -488,6 +489,7 @@ iframe {
 .listening-copy h2,
 .section-heading h2,
 .about-copy h2,
+.contact-band h2,
 .link-group h2 {
   margin: 0.35rem 0 0;
   color: var(--color-text);
@@ -758,6 +760,60 @@ iframe {
   transform: translateX(0.25rem);
 }
 
+.contact-band {
+  display: grid;
+  grid-template-columns: minmax(0, 0.52fr) minmax(0, 1fr);
+  gap: 2.5rem;
+  align-items: start;
+  border-bottom: 1px solid rgba(239, 226, 197, 0.1);
+  padding-top: 2.75rem;
+  padding-bottom: 2.75rem;
+}
+
+.contact-band h2 {
+  max-width: 21rem;
+  font-size: 2.5rem;
+}
+
+.contact-copy {
+  max-width: 42rem;
+  min-width: 0;
+}
+
+.contact-copy p {
+  margin: 0;
+  color: rgba(239, 226, 197, 0.72);
+  font-size: 0.98rem;
+  line-height: 1.75;
+}
+
+.contact-copy p + p {
+  margin-top: 1rem;
+}
+
+.contact-copy a {
+  display: inline-flex;
+  gap: 0.65rem;
+  align-items: center;
+  margin-top: 1.35rem;
+  color: var(--color-accent);
+  font-weight: 800;
+  text-decoration-color: rgba(223, 143, 98, 0.46);
+  text-underline-offset: 0.3rem;
+  overflow-wrap: anywhere;
+}
+
+.contact-copy a:hover,
+.contact-copy a:focus-visible {
+  color: var(--color-text);
+}
+
+.contact-copy svg {
+  width: 1rem;
+  height: 1rem;
+  flex: 0 0 auto;
+}
+
 .memorial-footer-art {
   position: relative;
   display: grid;
@@ -898,7 +954,8 @@ iframe {
   }
 
   .listening-band,
-  .about-band {
+  .about-band,
+  .contact-band {
     grid-template-columns: 1fr;
   }
 
@@ -944,6 +1001,7 @@ iframe {
   .selected-works,
   .about-band,
   .link-groups,
+  .contact-band,
   .site-footer {
     padding-inline: 1rem;
   }

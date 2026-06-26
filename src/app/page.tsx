@@ -1,6 +1,7 @@
 import Image from "next/image";
 import {
   FaExternalLinkAlt,
+  FaEnvelope,
   FaFacebookF,
   FaHeadphones,
   FaInstagram,
@@ -286,6 +287,30 @@ export default function Home() {
             </div>
           );
         })}
+      </section>
+
+      <section id="contact" className="contact-band" aria-labelledby="contact-heading">
+        <div>
+          <p className="section-label">Contact</p>
+          <h2 id="contact-heading">A note on stewardship.</h2>
+        </div>
+        <div className="contact-copy">
+          <p>
+            This archive was made with respect, only to help preserve access to
+            Elijah Nang&apos;s work and point listeners toward his official music
+            pages. I am not selling anything here, and I do not want to profit
+            from the site.
+          </p>
+          <p>
+            If Elijah&apos;s family or loved ones would prefer to take
+            stewardship of this archive, request changes, or have the site
+            passed along to them, I would be grateful to hear from them.
+          </p>
+          <a href="mailto:chronosopher@proton.me">
+            <FaEnvelope aria-hidden="true" />
+            chronosopher@proton.me
+          </a>
+        </div>
       </section>
 
       <section className="memorial-footer-art" aria-label="Memorial closing">
