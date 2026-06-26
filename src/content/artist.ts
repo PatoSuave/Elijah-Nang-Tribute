@@ -59,8 +59,8 @@ export const artist = {
       title: "The Wonderland",
       type: "Album",
       description: "A dreamlike exploration of sound — whimsical, warm, and hauntingly beautiful.",
-      listenUrl: "https://soundcloud.com/elijahnang/sets/the-wonderland-album",
-      listenLabel: "Listen on SoundCloud",
+      listenUrl: "https://soundcloud.com/elijahnang",
+      listenLabel: "Explore on SoundCloud",
     },
     {
       title: "Nang Soul Vol.3 / Akira",

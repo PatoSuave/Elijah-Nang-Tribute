@@ -54,12 +54,12 @@ export default function MiniPlayer() {
         {/* SoundCloud embed */}
         <div className="h-[80px] bg-black/20">
           <iframe
-            title="Elijah Nang on SoundCloud"
+            title="Ho Chi Minh City (Beat 255) by Elijah Nang on SoundCloud"
             width="100%"
             height="80"
             scrolling="no"
             frameBorder="no"
-            allow="autoplay"
+            allow="autoplay; encrypted-media"
             loading="lazy"
             src={SOUNDCLOUD_URL}
             className="grayscale opacity-90 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-500"
