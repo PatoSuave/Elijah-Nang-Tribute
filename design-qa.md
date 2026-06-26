@@ -1,57 +1,59 @@
 **Source Visual Truth**
-- `design/music-first-archive/album-shelf.png`
+- Confirmed brief: photo-inspired sakura canopy, slow breeze illusion, petals falling from the canopy, no user-facing controls, reduced-motion support.
+- User reference: `c:/Users/afils/OneDrive/Desktop/Sakura.jpg` used as art direction only.
+- Production assets: `public/images/sakura-canopy.webp`, `public/images/sakura-petal.png`.
 
 **Implementation Evidence**
-- Primary desktop screenshot: `design/qa-polish-desktop.png`
-- Primary mobile screenshot: `design/qa-polish-mobile.png`
-- Previous desktop screenshot: `design/qa-home-desktop.png`
-- Previous mobile screenshot: `design/qa-home-mobile.png`
+- Comparison image: `design/qa-sakura-tree-comparison.png`
+- Desktop screenshot: `design/qa-sakura-tree-desktop.png`
+- Mobile screenshot: `design/qa-sakura-tree-mobile.png`
+- Reduced-motion screenshot: `design/qa-sakura-tree-reduced-motion.png`
+- Vercel preview screenshot: `design/qa-sakura-tree-preview.png`
 - Desktop viewport: 1440 x 1800
-- Mobile viewport: 390 x 1600
+- Mobile viewport: 390 x 1400
+- Reduced-motion viewport: 1440 x 1800
 - State: homepage at top, unauthenticated, default dark archive theme
 
 **Full-View Comparison Evidence**
-- The implementation follows the Album Shelf structure: fixed top navigation, oversized editorial hero, portrait-led first viewport, featured shelf, selected-works rows, compressed about section, focused listening callout, follow links, and memorial footer.
-- The implementation uses real repository content from `src/content/artist.ts` and real assets from `public/images/` instead of mock release names or fake platform details.
-- The hero now sends the primary action to the on-page listening section, keeping the first screen focused while avoiding a third-party embed dominating the archive layout.
+- The generated canopy echoes the reference photo's upper-left branch mass, dark negative space, and softly scattered blossoms without shipping the reference image.
+- The rendered page keeps the canopy behind the hero, portrait, shelf art, selected works, and mini-player.
+- Petals begin near the top canopy zone and drift downward slowly, so the motion reads as falling from the tree instead of random floating decoration.
+- Text remains readable across desktop and mobile; the canopy and petals stay faint against the existing scrims.
 
 **Focused Region Comparison Evidence**
-- Hero: source uses oversized serif title plus right-side portrait. Implementation matches the hierarchy and placement, with a softened real portrait panel and stable responsive behavior.
-- Featured shelf: source uses four square project covers on a horizontal shelf. Implementation preserves the desktop shelf and switches to a swipeable mobile shelf with fixed item sizing.
-- Selected works: source uses dense rows with cover, metadata, platform actions, and listen button. Implementation matches this information architecture with real release links.
-- Listening section: SoundCloud presence is represented as a custom dark card with artwork, track context, and a direct play link rather than an oversized iframe.
-- Typography: serif display and compact sans UI labels are preserved with the existing Next font setup.
-- Colors and tokens: deep green/black surface, warm cream text, and coral accent align with the source direction while improving text contrast in dense sections.
-- Image quality: real portrait, studio, silhouette, and artwork files are used. No placeholder boxes or CSS-drawn assets are used.
-- Copy/content: copy is grounded in the real artist content and the saved continuation instructions.
+- Desktop hero: the canopy is visible along the upper-left and upper edge, while the portrait and primary CTA remain dominant.
+- Mobile hero: the canopy sits behind the opening copy and does not crowd the portrait or buttons.
+- Reduced motion: the canopy is static and the falling petal layer is hidden.
+- Accessibility: the layer is `aria-hidden`, non-interactive, and uses `pointer-events: none`.
+
+**Browser Checks**
+- Page content rendered: passed.
+- Next/Vite error overlay: none detected.
+- Console/runtime errors in CDP probe: none detected.
+- Horizontal overflow at mobile probe width: 0 px.
+- Normal motion: canopy animation is `sakuraCanopyBreeze`; 12 mobile petals are visible.
+- Reduced motion: canopy animation is `none`; 0 petals are visible.
 
 **Findings**
 - No actionable P0, P1, or P2 issues remain.
 
 **Open Questions**
-- The source mock uses a more cutout-like hero portrait treatment. The available real asset has a rectangular background, so the implementation keeps it as a respectful photographic panel rather than fabricating transparency.
+- None for this pass.
 
 **Patches Made Since Previous QA Pass**
-- Changed the hero primary CTA to jump to the listening section.
-- Replaced the full SoundCloud iframe with a custom featured-track card.
-- Added a mobile swipe treatment for the featured shelf.
-- Softened the hero portrait panel and improved the panel edge treatment.
-- Improved contrast for muted text in the shelf, selected works, and link sections.
-- Fixed mobile width constraints that could cause narrow-screen text clipping.
-- Marked the first shelf image as eager-loaded with high fetch priority and kept later shelf images lazy-loaded.
-
-**Implementation Checklist**
-- Build Album Shelf page structure.
-- Use real artist data, images, and links.
-- Add real platform icons through `react-icons`.
-- Verify desktop screenshot.
-- Verify mobile screenshot.
-- Run lint and production build.
-- Deploy Vercel preview before pushing to `main`.
+- Replaced the petal-only layer with `src/components/SakuraAtmosphere.tsx`.
+- Added the generated/processed canopy asset at `public/images/sakura-canopy.webp`.
+- Retuned petal origins, durations, drift, opacity, and mobile density.
+- Added slow CSS-only canopy sway and Safari-compatible masking.
+- Preserved reduced-motion support by freezing the canopy and hiding petals.
+- Recorded the design decision in `DESIGN_CONTINUATION.md`.
 
 **Verification**
-- `npm run lint`: passed
-- `npm run build`: passed
+- `cmd /c npm run lint`: passed
+- `cmd /c npm run build`: passed
+- Chrome screenshot QA: passed
+- Chrome DevTools Protocol DOM/style QA: passed
+- Vercel preview screenshot QA: passed
 
 **Final Result**
 - final result: passed

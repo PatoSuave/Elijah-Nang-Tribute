@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter, Instrument_Serif } from "next/font/google";
 import "./globals.css";
 import MiniPlayer from "@/components/MiniPlayer";
+import SakuraAtmosphere from "@/components/SakuraAtmosphere";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -49,6 +50,7 @@ export default function RootLayout({
       <body className="min-h-screen flex flex-col">
         <div className="site-bg-image" aria-hidden="true" />
         <div className="site-bg-scrim" aria-hidden="true" />
+        <SakuraAtmosphere />
         <div className="texture-overlay" aria-hidden="true" />
 
         <header className="site-header">

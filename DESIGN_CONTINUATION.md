@@ -58,3 +58,21 @@ Notes:
 - The build uses real images from `public/images/`.
 - `react-icons` was added for platform/action icons.
 - Product Design QA passed against `design/music-first-archive/album-shelf.png`.
+
+## Atmosphere Pass
+
+Revised the sakura background into a photo-inspired atmosphere to honor the Japanese influence in Elijah's work.
+
+- Petal asset: `public/images/sakura-petal.png`
+- Canopy asset: `public/images/sakura-canopy.webp`
+- Component: `src/components/SakuraAtmosphere.tsx`
+- Evidence: `design/qa-sakura-tree-comparison.png`, `design/qa-sakura-tree-desktop.png`, `design/qa-sakura-tree-mobile.png`, `design/qa-sakura-tree-reduced-motion.png`
+
+Design decisions:
+
+- Use the attached `Sakura.jpg` as art direction only, not as a production image.
+- Keep the canopy faint, slow, and behind all content.
+- Make petals originate from the upper canopy zone instead of random page positions.
+- Use CSS-only motion for the canopy sway and petal drift.
+- Hide the falling petal layer and freeze the canopy for visitors who request reduced motion.
+- Do not add a visible pause control for the first pass.

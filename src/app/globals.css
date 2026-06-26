@@ -75,6 +75,61 @@ iframe {
     linear-gradient(180deg, rgba(11, 13, 8, 0.1), var(--color-bg));
 }
 
+.sakura-atmosphere {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+  isolation: isolate;
+}
+
+.sakura-atmosphere::after {
+  position: absolute;
+  inset: 0;
+  content: "";
+  background:
+    radial-gradient(circle at 16% 3%, rgba(239, 226, 197, 0.08), transparent 28rem),
+    linear-gradient(180deg, rgba(11, 13, 8, 0.08), rgba(11, 13, 8, 0.66) 46vh, rgba(11, 13, 8, 0.9));
+}
+
+.sakura-canopy {
+  position: absolute;
+  inset: -7vh -7vw auto -6vw;
+  height: min(60vh, 40rem);
+  background-image: url("/images/sakura-canopy.webp");
+  background-position: top left;
+  background-repeat: no-repeat;
+  background-size: cover;
+  filter: saturate(0.72) contrast(1.05) brightness(0.74);
+  opacity: 0.21;
+  transform-origin: 18% 0%;
+  animation: sakuraCanopyBreeze 28s ease-in-out infinite alternate;
+  -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 56%, transparent 100%);
+  mask-image: linear-gradient(180deg, #000 0%, #000 56%, transparent 100%);
+}
+
+.sakura-petal-field {
+  position: absolute;
+  inset: 0;
+}
+
+.sakura-petal {
+  position: absolute;
+  top: var(--petal-top);
+  left: var(--petal-left);
+  display: block;
+  width: var(--petal-size);
+  aspect-ratio: 0.78;
+  background: url("/images/sakura-petal.png") center / contain no-repeat;
+  filter: blur(var(--petal-blur)) saturate(0.92);
+  opacity: var(--petal-opacity);
+  transform: translate3d(0, 0, 0) rotate(var(--petal-rotate-start));
+  animation: sakuraFall var(--petal-duration) linear infinite;
+  animation-delay: var(--petal-delay);
+  will-change: transform;
+}
+
 .texture-overlay {
   position: fixed;
   inset: 0;
@@ -781,6 +836,34 @@ iframe {
   }
 }
 
+@keyframes sakuraFall {
+  0% {
+    transform: translate3d(0, 0, 0) rotate(var(--petal-rotate-start));
+  }
+
+  42% {
+    transform: translate3d(var(--petal-mid-drift), 54vh, 0) rotate(var(--petal-rotate-mid));
+  }
+
+  100% {
+    transform: translate3d(var(--petal-drift), 136vh, 0) rotate(var(--petal-rotate-end));
+  }
+}
+
+@keyframes sakuraCanopyBreeze {
+  0% {
+    transform: translate3d(-0.6vw, -0.4vh, 0) rotate(-0.22deg) scale(1.018);
+  }
+
+  50% {
+    transform: translate3d(0.25vw, 0.25vh, 0) rotate(0.12deg) scale(1.026);
+  }
+
+  100% {
+    transform: translate3d(0.7vw, -0.2vh, 0) rotate(0.24deg) scale(1.02);
+  }
+}
+
 .reveal {
   animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   opacity: 0;
@@ -987,5 +1070,33 @@ iframe {
   .link-group:last-child {
     border-bottom: 0;
     padding-bottom: 0;
+  }
+}
+
+@media (max-width: 720px) {
+  .sakura-canopy {
+    inset: -4vh -52vw auto -38vw;
+    height: 48vh;
+    opacity: 0.17;
+    background-position: 18% top;
+  }
+
+  .sakura-petal {
+    width: calc(var(--petal-size) * 0.82);
+  }
+
+  .sakura-petal:nth-child(n + 13) {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sakura-canopy {
+    animation: none;
+    transform: translate3d(0, 0, 0) scale(1.018);
+  }
+
+  .sakura-petal {
+    display: none;
   }
 }
