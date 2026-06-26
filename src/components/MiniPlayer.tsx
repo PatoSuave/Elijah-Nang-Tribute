@@ -19,7 +19,7 @@ export default function MiniPlayer() {
   return (
     <div
       className={`
-        fixed z-40 transition-all duration-1000 cubic-bezier(0.16, 1, 0.3, 1)
+        fixed z-40 transition-all duration-1000 ease-[cubic-bezier(0.16,1,0.3,1)]
         bottom-6 right-6
         left-6 sm:left-auto
         sm:w-[340px]
@@ -42,6 +42,7 @@ export default function MiniPlayer() {
             </span>
           </div>
           <button
+            type="button"
             onClick={() => setDismissed(true)}
             className="text-text-dim hover:text-text-muted transition-colors duration-200 text-xs leading-none p-1.5 rounded-full hover:bg-white/5"
             aria-label="Dismiss player"
@@ -59,6 +60,7 @@ export default function MiniPlayer() {
             scrolling="no"
             frameBorder="no"
             allow="autoplay"
+            loading="lazy"
             src={SOUNDCLOUD_URL}
             className="grayscale opacity-90 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-500"
           />

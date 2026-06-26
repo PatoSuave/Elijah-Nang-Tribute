@@ -17,22 +17,22 @@ const instrumentSerif = Instrument_Serif({
 });
 
 export const metadata: Metadata = {
-  title: "Elijah Nang — A Tribute",
+  title: "Elijah Nang - Music Archive",
   description:
-    "A memorial archive honoring the life and music of Elijah Nang, also known as Nang Soul.",
+    "A music-first memorial archive honoring the life and work of Elijah Nang, also known as Nang Soul.",
   openGraph: {
-    title: "Elijah Nang — A Tribute",
+    title: "Elijah Nang - Music Archive",
     description:
-      "A memorial archive honoring the life and music of Elijah Nang.",
+      "A music-first memorial archive honoring the life and work of Elijah Nang.",
     siteName: "Nang Soul",
     type: "website",
   },
 };
 
 const navLinks = [
-  { href: "#about", label: "About" },
+  { href: "#listen", label: "Listen" },
   { href: "#works", label: "Works" },
-  { href: "#listen", label: "Listen & Watch" },
+  { href: "#about", label: "About" },
   { href: "#links", label: "Links" },
 ];
 
@@ -47,36 +47,26 @@ export default function RootLayout({
       className={`antialiased ${inter.variable} ${instrumentSerif.variable}`}
     >
       <body className="min-h-screen flex flex-col">
-        {/* ── Fixed background image ── */}
         <div className="site-bg-image" aria-hidden="true" />
         <div className="site-bg-scrim" aria-hidden="true" />
         <div className="texture-overlay" aria-hidden="true" />
 
-        {/* ── Navigation ── */}
-        <header className="fixed top-0 left-0 right-0 z-40 bg-bg/80 backdrop-blur-md border-b border-border/40">
-          <nav className="max-w-6xl mx-auto px-6 flex items-center justify-between h-14">
-            <a
-              href="#"
-              className="text-sm font-medium tracking-wide text-text hover:text-accent transition-colors duration-200"
-            >
-              Nang Soul
+        <header className="site-header">
+          <nav className="site-nav" aria-label="Primary navigation">
+            <a href="#overview" className="site-brand">
+              Nang Soul Archive
             </a>
-            <ul className="hidden sm:flex items-center gap-8">
+            <ul>
               {navLinks.map((link) => (
                 <li key={link.href}>
-                  <a
-                    href={link.href}
-                    className="text-[11px] tracking-[0.18em] uppercase text-text-muted hover:text-accent transition-colors duration-200"
-                  >
-                    {link.label}
-                  </a>
+                  <a href={link.href}>{link.label}</a>
                 </li>
               ))}
             </ul>
           </nav>
         </header>
 
-        <main className="flex-1">{children}</main>
+        <main className="site-main">{children}</main>
         <MiniPlayer />
       </body>
     </html>
