@@ -1,10 +1,7 @@
-import { defineRailway, preserve, project, service } from "railway/iac";
-
-// Last resort for a per-service CaC repo. Prefer one .railway file for the
-// project and drop this if you later combine services into that file.
-export const partial = "nangsoul-web";
+import { defineRailway, postgres, preserve, project, service } from "railway/iac";
 
 export default defineRailway(() => {
+  const database = postgres("Postgres");
   const nangsoul_web = service("nangsoul-web", {
     build: "npm run build",
     start: "npm run start",
@@ -12,7 +9,7 @@ export default defineRailway(() => {
     healthcheckTimeout: 120,
     preDeploy: "npm run db:migrate",
     env: {
-      DATABASE_URL: preserve(),
+      DATABASE_URL: database.env.DATABASE_URL,
       MEMORIAL_ADMIN_PASSWORD: preserve(),
       MEMORIAL_ADMIN_SESSION_SECRET: preserve(),
       MEMORIAL_PUBLIC_ORIGIN: preserve(),
@@ -23,6 +20,6 @@ export default defineRailway(() => {
     },
   });
   return project("nangsoul-memorial", {
-    resources: [nangsoul_web],
+    resources: [database, nangsoul_web],
   });
 });
