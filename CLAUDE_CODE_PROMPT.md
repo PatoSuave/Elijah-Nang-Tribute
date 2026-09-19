@@ -9,14 +9,12 @@ Create a respectful, cinematic, responsive one-page memorial site for nangsoul.c
 - Next.js with App Router
 - TypeScript
 - Tailwind CSS
-- Deploy-ready for Vercel
+- Deploy-ready for Railway
 - Fully responsive
-- Static site only for v1
 - Clean component structure
 - SEO metadata and Open Graph tags
 - Reusable content-driven architecture
 - No CMS
-- No backend required
 
 ## Design direction
 - elegant
@@ -91,4 +89,4 @@ Please generate:
 2. all source files
 3. sample content in `artist.ts`
 4. homepage implementation
-5. instructions for local development and GitHub/Vercel deployment
+5. instructions for local development and GitHub/Railway deployment

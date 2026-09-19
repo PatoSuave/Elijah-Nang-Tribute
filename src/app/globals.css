@@ -205,6 +205,7 @@ iframe {
 .about-band,
 .link-groups,
 .contact-band,
+.memorial-board,
 .site-footer {
   width: min(100%, 76rem);
   margin: 0 auto;
@@ -814,6 +815,49 @@ iframe {
   flex: 0 0 auto;
 }
 
+.memorial-board {
+  border-bottom: 1px solid rgba(239, 226, 197, 0.1);
+  padding-top: 3.5rem;
+  padding-bottom: 4rem;
+}
+
+.memorial-intro { max-width: 37rem; }
+.memorial-intro h2, .admin-page h1 {
+  margin: .4rem 0 .8rem; color: var(--color-text); font-family: var(--font-serif);
+  font-weight: 400; font-size: 3rem; line-height: 1;
+}
+.memorial-intro > p:last-child, .memorial-note, .admin-page > p { color: rgba(239, 226, 197, .72); line-height: 1.7; }
+.memorial-layout { display: grid; grid-template-columns: minmax(17rem, .78fr) minmax(0, 1fr); gap: 4rem; margin-top: 2.25rem; }
+.memorial-form { display: grid; gap: 1rem; min-width: 0; }
+.memorial-form label, .admin-login label { display: block; color: var(--color-text-muted); font-size: .84rem; font-weight: 700; }
+.memorial-form label span { color: var(--color-text-dim); font-weight: 400; }
+.memorial-form input:not([type="checkbox"]), .memorial-form textarea, .admin-login input { width: 100%; margin-top: .45rem; border: 1px solid rgba(239,226,197,.22); border-radius: 0; background: rgba(11,13,8,.56); color: var(--color-text); font: inherit; padding: .75rem; }
+.memorial-form textarea { min-height: 10rem; resize: vertical; line-height: 1.55; }
+.memorial-form input:focus-visible, .memorial-form textarea:focus-visible, .admin-login input:focus-visible { border-color: var(--color-accent); outline: 2px solid rgba(223,143,98,.45); outline-offset: 2px; }
+.character-count { margin: .35rem 0 0; color: var(--color-text-dim); font-size: .78rem; text-align: right; }
+.consent { display: flex !important; gap: .65rem; align-items: flex-start; line-height: 1.5; }
+.consent input { margin-top: .2rem; accent-color: var(--color-accent); }
+.memorial-note, .form-feedback { margin: 0; font-size: .83rem; }
+.form-feedback { min-height: 1.25rem; color: var(--color-accent-muted); line-height: 1.5; }
+.honeypot { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
+.message-list { display: grid; align-content: start; border-top: 1px solid rgba(239,226,197,.12); }
+.memorial-entry { padding: 1.4rem 0; border-bottom: 1px solid rgba(239,226,197,.12); }
+.memorial-entry header { display: grid; gap: .2rem; }
+.memorial-entry strong { color: var(--color-text); font-family: var(--font-serif); font-size: 1.5rem; font-weight: 400; }
+.memorial-entry header span, .memorial-entry time { color: var(--color-text-dim); font-size: .79rem; }
+.memorial-entry p { margin: .85rem 0 .9rem; color: rgba(239,226,197,.86); line-height: 1.75; white-space: pre-wrap; overflow-wrap: anywhere; }
+.memorial-empty { color: var(--color-text-dim); padding: 1.5rem 0; }
+.message-list > button { margin-top: 1.5rem; justify-self: start; }
+.admin-page { width: min(100% - 2rem, 56rem); margin: 7rem auto 5rem; }
+.admin-login { display: grid; gap: 1rem; max-width: 25rem; margin-top: 2rem; }
+.admin-login p, .admin-queue > p { color: var(--color-accent); }
+.admin-queue { display: grid; gap: 1rem; margin-top: 2rem; }
+.admin-entry { border: 1px solid rgba(239,226,197,.14); background: rgba(21,23,15,.7); padding: 1.25rem; }
+.admin-entry p { white-space: pre-wrap; overflow-wrap: anywhere; line-height: 1.6; }
+.admin-entry small { color: var(--color-text-dim); }
+.admin-entry div { display: flex; flex-wrap: wrap; gap: .75rem; margin-top: 1rem; }
+.admin-pagination { display: flex; flex-wrap: wrap; gap: .75rem; margin-top: 1.5rem; }
+
 .memorial-footer-art {
   position: relative;
   display: grid;
@@ -959,6 +1003,8 @@ iframe {
     grid-template-columns: 1fr;
   }
 
+  .memorial-layout { grid-template-columns: 1fr; gap: 2.5rem; }
+
   .listening-card {
     grid-template-columns: 7.5rem minmax(0, 1fr);
   }
@@ -1002,6 +1048,7 @@ iframe {
   .about-band,
   .link-groups,
   .contact-band,
+  .memorial-board,
   .site-footer {
     padding-inline: 1rem;
   }
@@ -1106,6 +1153,7 @@ iframe {
   }
 
   .about-copy h2,
+  .memorial-intro h2,
   .memorial-footer-art p {
     font-size: 2.8rem;
   }

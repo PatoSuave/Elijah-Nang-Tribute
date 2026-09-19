@@ -45,14 +45,11 @@ The site should feel like a carefully preserved digital memorial rather than a s
 - featured works section
 - outbound links to music and social platforms
 - memorial disclaimer in footer
-- deploy-ready on Vercel
+- deploy-ready on Railway
 
 ## Out of Scope for v1
 - CMS
 - user accounts
-- tribute submissions
-- database
-- custom backend
 - hosting copyrighted media directly
 
 ## Success Criteria
