@@ -142,13 +142,15 @@ export async function submitPendingMessage(input: SubmissionInput, fingerprint: 
 
 export async function moderateMessage(id: string, status: "approved" | "rejected") {
   if (!UUID.test(id)) throw new Error("Invalid memorial message identifier.");
+  const moderationUpdate = status === "approved"
+    ? "set status = 'approved', approved_at = current_timestamp"
+    : "set status = 'rejected', approved_at = null";
   const { rows } = await pool().query<MemorialMessage>(
     `update memorial_messages
-        set status = $2,
-            approved_at = case when $2 = 'approved' then current_timestamp else null end
+        ${moderationUpdate}
       where id = $1 and status = 'pending'
       returning id, display_name, location, message, status, created_at, approved_at`,
-    [id, status],
+    [id],
   );
   if (!rows[0]) throw new Error("This message is no longer awaiting review.");
   return rows[0];
