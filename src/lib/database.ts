@@ -85,6 +85,7 @@ export async function adminMessages(offset = 0, limit = ADMIN_PAGE_SIZE) {
   const { rows } = await pool().query<MemorialMessage>(
     `select id, display_name, location, message, status, created_at, approved_at
        from memorial_messages
+      where status = 'pending'
       order by created_at desc, id desc
       limit $1 offset $2`,
     [paging.limit + 1, paging.offset],
