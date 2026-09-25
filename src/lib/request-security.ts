@@ -29,16 +29,30 @@ function configuredPublicOrigin() {
   return cachedPublicOrigin;
 }
 
+function requestHostOrigin(request: Request) {
+  const host = request.headers.get("host");
+  if (host === null) return null;
+  try {
+    const protocol = new URL(request.url).protocol;
+    return canonicalOrigin(`${protocol}//${host}`, false);
+  } catch {
+    return null;
+  }
+}
+
 export function isSameOrigin(request: Request, environment = process.env.NODE_ENV) {
   const origin = canonicalOrigin(request.headers.get("origin"), false);
   if (!origin) return false;
 
-  // Railway forwards requests to the internal service address. Trusting that
-  // request URL in production would reject the browser's public Origin, while
-  // trusting forwarded-host headers would let a client choose the comparison.
+  // Railway forwards requests to an internal service address. Production must
+  // use the configured public origin and must not trust forwarded or Host
+  // headers. Local development may use the direct Host header because Next's
+  // request URL can be canonicalized to localhost despite a 127.0.0.1 bind.
   const expectedOrigin = environment === "production"
     ? configuredPublicOrigin()
-    : canonicalOrigin(new URL(request.url).origin, false);
+    : request.headers.has("host")
+      ? requestHostOrigin(request)
+      : canonicalOrigin(new URL(request.url).origin, false);
   return Boolean(expectedOrigin && origin === expectedOrigin);
 }
 

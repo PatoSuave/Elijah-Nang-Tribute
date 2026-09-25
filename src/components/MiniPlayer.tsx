@@ -1,20 +1,24 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 
 const SOUNDCLOUD_URL =
   "https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/elijahnang/ho-chi-minh-city-beat-255&color=%23c28a36&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false";
 
 export default function MiniPlayer() {
+  const pathname = usePathname();
   const [visible, setVisible] = useState(false);
   const [dismissed, setDismissed] = useState(false);
+  const isAdminRoute = pathname === "/admin" || pathname?.startsWith("/admin/");
 
   useEffect(() => {
+    if (isAdminRoute) return;
     const timer = setTimeout(() => setVisible(true), 2500);
     return () => clearTimeout(timer);
-  }, []);
+  }, [isAdminRoute]);
 
-  if (dismissed) return null;
+  if (isAdminRoute || dismissed) return null;
 
   return (
     <div

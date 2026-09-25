@@ -2,7 +2,7 @@ import "server-only";
 
 import { randomUUID } from "crypto";
 import { Pool, type PoolClient, type PoolConfig } from "pg";
-import { adminPaging } from "./memorial";
+import { adminPaging } from "./memorial.ts";
 
 type MemorialMessage = {
   id: string;
@@ -21,6 +21,7 @@ type SubmissionInput = {
 };
 
 type QuotaResult = { allowed: boolean; retry_after_seconds: number };
+type SubmissionResult = QuotaResult & { duplicate: boolean };
 
 const PUBLIC_PAGE_SIZE = 12;
 const ADMIN_PAGE_SIZE = 25;
@@ -123,12 +124,28 @@ async function consumeQuota(client: PoolClient, fingerprint: string): Promise<Qu
   return rows[0];
 }
 
-// The quota update and message insert share one transaction. A failed insert
-// therefore does not consume a visitor's durable submission allowance.
+// The fingerprint-scoped transaction lock keeps a double-click or transport
+// retry from creating duplicate pending messages while preserving the quota.
+// The quota update and message insert share one transaction, so a failed
+// insert does not consume a visitor's durable submission allowance.
 export async function submitPendingMessage(input: SubmissionInput, fingerprint: string) {
-  return withTransaction(async (client) => {
+  return withTransaction<SubmissionResult>(async (client) => {
+    await client.query("select pg_advisory_xact_lock(hashtext($1))", [fingerprint]);
+    const duplicate = await client.query(
+      `select 1
+         from memorial_messages
+        where submission_fingerprint = $1
+          and display_name = $2
+          and location is not distinct from $3
+          and message = $4
+          and created_at >= current_timestamp - interval '10 minutes'
+        limit 1`,
+      [fingerprint, input.displayName, input.location, input.message],
+    );
+    if (duplicate.rowCount) return { allowed: false, duplicate: true, retry_after_seconds: 0 };
+
     const quota = await consumeQuota(client, fingerprint);
-    if (!quota.allowed) return quota;
+    if (!quota.allowed) return { ...quota, duplicate: false };
 
     await client.query<MemorialMessage>(
       `insert into memorial_messages (
@@ -136,12 +153,16 @@ export async function submitPendingMessage(input: SubmissionInput, fingerprint: 
        ) values ($1, $2, $3, $4, 'pending', $5)`,
       [randomUUID(), input.displayName, input.location, input.message, fingerprint],
     );
-    return quota;
+    return { ...quota, duplicate: false };
   });
 }
 
+export function isMemorialMessageId(id: string) {
+  return UUID.test(id);
+}
+
 export async function moderateMessage(id: string, status: "approved" | "rejected") {
-  if (!UUID.test(id)) throw new Error("Invalid memorial message identifier.");
+  if (!isMemorialMessageId(id)) throw new Error("Invalid memorial message identifier.");
   const moderationUpdate = status === "approved"
     ? "set status = 'approved', approved_at = current_timestamp"
     : "set status = 'rejected', approved_at = null";
@@ -152,8 +173,7 @@ export async function moderateMessage(id: string, status: "approved" | "rejected
       returning id, display_name, location, message, status, created_at, approved_at`,
     [id],
   );
-  if (!rows[0]) throw new Error("This message is no longer awaiting review.");
-  return rows[0];
+  return rows[0] || null;
 }
 
 export async function databaseHealthy() {

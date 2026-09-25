@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { Inter, Instrument_Serif } from "next/font/google";
 import "./globals.css";
 import MiniPlayer from "@/components/MiniPlayer";
@@ -31,12 +32,12 @@ export const metadata: Metadata = {
 };
 
 const navLinks = [
-  { href: "#listen", label: "Listen" },
-  { href: "#works", label: "Works" },
-  { href: "#about", label: "About" },
-  { href: "#links", label: "Links" },
-  { href: "#contact", label: "Contact" },
-  { href: "#messages", label: "Messages" },
+  { href: "/#listen", label: "Listen" },
+  { href: "/#works", label: "Works" },
+  { href: "/#about", label: "About" },
+  { href: "/#links", label: "Links" },
+  { href: "/#contact", label: "Contact" },
+  { href: "/#messages", label: "Messages" },
 ];
 
 export default function RootLayout({
@@ -57,13 +58,13 @@ export default function RootLayout({
 
         <header className="site-header">
           <nav className="site-nav" aria-label="Primary navigation">
-            <a href="#overview" className="site-brand">
+            <Link href="/#overview" className="site-brand">
               Nang Soul Archive
-            </a>
+            </Link>
             <ul>
               {navLinks.map((link) => (
                 <li key={link.href}>
-                  <a href={link.href}>{link.label}</a>
+                  <Link href={link.href}>{link.label}</Link>
                 </li>
               ))}
             </ul>
