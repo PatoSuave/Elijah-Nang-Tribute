@@ -81,6 +81,7 @@ iframe {
   z-index: 0;
   overflow: hidden;
   pointer-events: none;
+  filter: brightness(1.05);
   isolation: isolate;
 }
 
