@@ -1,47 +1,28 @@
-# Deployment Checklist
+# Cloudflare deployment checklist
 
-## 1. GitHub Repo
-- Create or open the repository: **Elijah Nang Tribute**
-- Add your starter docs
-- Add the generated Next.js codebase once Claude Code produces it
+## Preview gate
 
-## 2. Local Project Setup
-- initialize Next.js with TypeScript and Tailwind
-- confirm the project runs locally
-- verify mobile responsiveness
-- review all outbound links
-- confirm metadata and favicon placeholders exist
+- Keep Railway and its database available. Disable Railway Git auto-deploy before publishing the migration to its watched branch; the new npm commands target Workers.
+- Confirm the personal Cloudflare account and the staging D1 ID in `wrangler.jsonc`.
+- Run unit tests, D1 integration tests, typecheck, lint, Workers build and built Worker HTTP checks. Obtain independent verification of the frozen candidate.
+- Apply staging D1 migrations with `npx wrangler d1 migrations apply MEMORIAL_DB --env staging --remote`.
+- Install fresh staging Worker secrets via stdin or the dashboard. Never pass their values as command arguments or save them in Git.
+- Run `npm run build:staging`, then the authorized `npm run deploy:staging`.
+- On the staging domain, verify the rendered desktop/mobile site, fonts, images, brightness, petal motion/reduced motion, music links/embeds, real Turnstile, submission, admin sign-in, approve/reject, pagination and health. Use synthetic staging messages only.
 
-## 3. Commit and Push
-- commit the initial codebase
-- push to GitHub
-- verify the default branch is correct
+## Data and cutover gate
 
-## 4. Railway Services
-- create or open the Railway project
-- add a PostgreSQL service and the Next.js application service to the same environment
-- import the GitHub repository into the application service
-- reference the database service's private `DATABASE_URL` in the application service
-- add the remaining secrets from `.env.example`
-- confirm the pre-deploy migration and `/api/health` healthcheck configured in `.railway/railway.ts`
+- Follow [CLOUDFLARE_MIGRATION.md](docs/CLOUDFLARE_MIGRATION.md) for private backup, microsecond-preserving export, schema inventory and exact count/hash reconciliation.
+- Rehearse import on staging before touching the production DB. Keep rehearsal data out of production.
+- Freeze writes on the old service. Confirm zero messages in the preceding ten minutes and zero positive, unexpired UTC-hour quota records; if either check is nonzero, wait for expiry and recheck. No extra hour wait is needed when both are already zero. Obtain a final consistent snapshot.
+- Confirm the production target is empty, apply its D1 schema and import the final snapshot. Reconcile every message column, all four statuses and all quota rows exactly before accepting writes.
+- Set the correct production public origin and fresh secrets. Build/deploy only the production target. Test read-only data and health before routing traffic.
+- Move DNS/domain routing to Cloudflare only after the preview and data gates pass. Confirm the zone is active and the old DNS records are backed up before deploying the production-only custom-domain routes. Review the exact `www.nangsoul.com` / `nangsoul.com` changes. Verify TLS, apex 308 path/query preservation, no redirect loop on `www`, and both Workers probe URLs. Confirm version preview URLs are disabled.
+- Complete live browser submission and moderation checks with the user's authorized synthetic content. Confirm approved data and private pending/rejected/archived data remain correct.
 
-## 5. Domain Connection
-- add `nangsoul.com` inside the Railway application service settings
-- add `www.nangsoul.com` if desired
-- add the Railway-provided CNAME and verification TXT records at your registrar
-- wait for domain verification
+## Retirement gate
 
-## 6. Final Pre-Launch Review
-- check mobile layout
-- test all external links
-- confirm the disclaimer is visible
-- confirm the site does not falsely imply official estate endorsement
-- check page title and Open Graph preview
-- submit and moderate a test memorial message after the database migration has completed
-
-## 7. Post-Launch Improvements
-- add more curated featured works
-- refine copy
-- add stronger visuals or archival imagery if rights are clear
-- improve SEO descriptions
-- consider a timeline or discography expansion
+- Retain the original backup, exact reconciliation report, source/deployment IDs and a rollback path outside tracked source.
+- Keep Railway available until Cloudflare's site, message submission, admin workflow and imported messages are verified live.
+- Once Cloudflare accepts writes, a rollback to the old database requires a fresh D1 export and data reconciliation; reverting DNS alone would lose new messages.
+- Shut down Railway only after all gates pass. Report prepared, deployed, reconciled, domain-switched and retired status separately.

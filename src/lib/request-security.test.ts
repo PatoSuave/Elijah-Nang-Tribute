@@ -8,31 +8,23 @@ function request(origin: string, options: { url?: string; host?: string } = {}) 
   return new Request(options.url || "http://internal-service:3000/api/memorial/submissions", { headers });
 }
 
-function withPublicOrigin(value: string | undefined, run: () => void) {
-  const previous = process.env.MEMORIAL_PUBLIC_ORIGIN;
-  if (value === undefined) delete process.env.MEMORIAL_PUBLIC_ORIGIN;
-  else process.env.MEMORIAL_PUBLIC_ORIGIN = value;
-  try { run(); } finally {
-    if (previous === undefined) delete process.env.MEMORIAL_PUBLIC_ORIGIN;
-    else process.env.MEMORIAL_PUBLIC_ORIGIN = previous;
-  }
-}
+function withPublicOrigin(value: string | undefined, run: (publicOrigin: string | undefined) => void) { run(value); }
 
 test("production accepts the configured public origin despite an internal request URL", () => {
-  withPublicOrigin("https://nangsoul-web-staging.up.railway.app", () => {
-    assert.equal(isSameOrigin(request("https://nangsoul-web-staging.up.railway.app"), "production"), true);
+  withPublicOrigin("https://nangsoul-staging.example.workers.dev", (publicOrigin) => {
+    assert.equal(isSameOrigin(request("https://nangsoul-staging.example.workers.dev"), "production", publicOrigin), true);
   });
 });
 
 test("production rejects a different public origin", () => {
-  withPublicOrigin("https://nangsoul-web-staging.up.railway.app", () => {
-    assert.equal(isSameOrigin(request("https://attacker.example"), "production"), false);
+  withPublicOrigin("https://nangsoul-staging.example.workers.dev", (publicOrigin) => {
+    assert.equal(isSameOrigin(request("https://attacker.example"), "production", publicOrigin), false);
   });
 });
 
 test("production fails closed without a configured public origin", () => {
-  withPublicOrigin(undefined, () => {
-    assert.equal(isSameOrigin(request("https://nangsoul-web-staging.up.railway.app"), "production"), false);
+  withPublicOrigin(undefined, (publicOrigin) => {
+    assert.equal(isSameOrigin(request("https://nangsoul-staging.example.workers.dev"), "production", publicOrigin), false);
   });
 });
 
@@ -60,10 +52,10 @@ test("development falls back to the request URL when Host is absent", () => {
 });
 
 test("production ignores a spoofed Host header and still requires the configured origin", () => {
-  withPublicOrigin("https://nangsoul-web-staging.up.railway.app", () => {
+  withPublicOrigin("https://nangsoul-staging.example.workers.dev", (publicOrigin) => {
     const spoofed = request("https://attacker.example", { host: "attacker.example" });
-    const configured = request("https://nangsoul-web-staging.up.railway.app", { host: "attacker.example" });
-    assert.equal(isSameOrigin(spoofed, "production"), false);
-    assert.equal(isSameOrigin(configured, "production"), true);
+    const configured = request("https://nangsoul-staging.example.workers.dev", { host: "attacker.example" });
+    assert.equal(isSameOrigin(spoofed, "production", publicOrigin), false);
+    assert.equal(isSameOrigin(configured, "production", publicOrigin), true);
   });
 });

@@ -1,0 +1,75 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "nangsoul-local",
+  "account_id": "78070ad5939b22bca9c67c6495f6902a",
+  "compatibility_date": "2026-10-22",
+  "compatibility_flags": [
+    "nodejs_compat"
+  ],
+  "main": "vinext/server/fetch-handler",
+  "upload_source_maps": true,
+  "observability": { "enabled": true, "head_sampling_rate": 1 },
+  "vars": {
+    "MEMORIAL_ENVIRONMENT": "local",
+    "MEMORIAL_PUBLIC_ORIGIN": "",
+    "NEXT_PUBLIC_TURNSTILE_SITE_KEY": ""
+  },
+  "secrets": { "required": ["TURNSTILE_SECRET_KEY", "MEMORIAL_ADMIN_PASSWORD", "MEMORIAL_ADMIN_SESSION_SECRET", "MEMORIAL_RATE_LIMIT_SALT"] },
+  "d1_databases": [{
+    "binding": "MEMORIAL_DB",
+    "database_name": "nangsoul-local",
+    "database_id": "00000000-0000-0000-0000-000000000000",
+    "migrations_dir": "migrations/d1"
+  }],
+  "env": {
+    "staging": {
+      "name": "nangsoul-staging",
+      "workers_dev": true,
+      "preview_urls": false,
+      "vars": {
+        "MEMORIAL_ENVIRONMENT": "staging",
+        "MEMORIAL_PUBLIC_ORIGIN": "https://nangsoul-staging.squikyus.workers.dev",
+        "NEXT_PUBLIC_TURNSTILE_SITE_KEY": "0x4AAAAAAFhAbtbFmYflD70z"
+      },
+      "secrets": { "required": ["TURNSTILE_SECRET_KEY", "MEMORIAL_ADMIN_PASSWORD", "MEMORIAL_ADMIN_SESSION_SECRET", "MEMORIAL_RATE_LIMIT_SALT"] },
+      "d1_databases": [{
+        "binding": "MEMORIAL_DB",
+        "database_name": "nangsoul-memorial-staging",
+        "database_id": "7e785e41-c239-48dd-8ba7-a5af39726eb7",
+        "migrations_dir": "migrations/d1"
+      }]
+    },
+    "production": {
+      "name": "nangsoul",
+      "workers_dev": true,
+      "preview_urls": false,
+      "routes": [
+        { "pattern": "www.nangsoul.com", "custom_domain": true, "zone_id": "2800bc8bbc2a3f00307e5e3cea001bbe" },
+        { "pattern": "nangsoul.com", "custom_domain": true, "zone_id": "2800bc8bbc2a3f00307e5e3cea001bbe" }
+      ],
+      "vars": {
+        "MEMORIAL_ENVIRONMENT": "production",
+        "MEMORIAL_PUBLIC_ORIGIN": "https://www.nangsoul.com",
+        "NEXT_PUBLIC_TURNSTILE_SITE_KEY": "0x4AAAAAAFhAbtbFmYflD70z"
+      },
+      "secrets": { "required": ["TURNSTILE_SECRET_KEY", "MEMORIAL_ADMIN_PASSWORD", "MEMORIAL_ADMIN_SESSION_SECRET", "MEMORIAL_RATE_LIMIT_SALT"] },
+      "d1_databases": [{
+        "binding": "MEMORIAL_DB",
+        "database_name": "nangsoul-memorial-production",
+        "database_id": "ff2b2e9f-6326-4bd8-942b-bf0f8ff43da1",
+        "migrations_dir": "migrations/d1"
+      }]
+    }
+  },
+  "assets": {
+    "directory": "dist/client",
+    "html_handling": "none",
+    "not_found_handling": "none",
+    "binding": "ASSETS",
+    "run_worker_first": [
+      "/*",
+      "!/_next/static/*",
+      "!/*/_next/static/*"
+    ]
+  }
+}

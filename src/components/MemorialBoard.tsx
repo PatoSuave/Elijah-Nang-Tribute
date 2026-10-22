@@ -41,7 +41,7 @@ async function responseJson(response: Response) {
   return value && typeof value === "object" ? value as Record<string, unknown> : {};
 }
 
-export default function MemorialBoard() {
+export default function MemorialBoard({ siteKey }: { siteKey: string }) {
   const [messages, setMessages] = useState<PublicMessage[]>([]); const [offset, setOffset] = useState(0); const [hasMore, setHasMore] = useState(false);
   const [messagesError, setMessagesError] = useState(""); const [messagesLoading, setMessagesLoading] = useState(false);
   const [message, setMessage] = useState(""); const [feedback, setFeedback] = useState(""); const [feedbackIsError, setFeedbackIsError] = useState(false); const [sending, setSending] = useState(false); const [turnstileToken, setTurnstileToken] = useState(""); const [captchaError, setCaptchaError] = useState("");
@@ -82,7 +82,7 @@ export default function MemorialBoard() {
   };
   useEffect(() => { load(); }, []);
   useEffect(() => {
-    const key = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;
+    const key = siteKey;
     const mount = turnstileMount.current;
     if (!key) {
       setCaptchaError("Message verification is unavailable. Please try again later.");
@@ -133,7 +133,7 @@ export default function MemorialBoard() {
       };
     }
     return cleanupWidget;
-  }, []);
+  }, [siteKey]);
 
   function showFeedback(value: string, error = false) {
     setFeedback(value);

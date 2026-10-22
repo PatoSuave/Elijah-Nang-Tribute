@@ -1,6 +1,3 @@
-let cachedPublicOriginValue: string | undefined;
-let cachedPublicOrigin: string | null | undefined;
-
 function canonicalOrigin(value: string | null, requireHttps: boolean) {
   if (!value) return null;
   try {
@@ -20,15 +17,6 @@ function canonicalOrigin(value: string | null, requireHttps: boolean) {
   }
 }
 
-function configuredPublicOrigin() {
-  const value = process.env.MEMORIAL_PUBLIC_ORIGIN;
-  if (value !== cachedPublicOriginValue || cachedPublicOrigin === undefined) {
-    cachedPublicOriginValue = value;
-    cachedPublicOrigin = canonicalOrigin(value ?? null, true);
-  }
-  return cachedPublicOrigin;
-}
-
 function requestHostOrigin(request: Request) {
   const host = request.headers.get("host");
   if (host === null) return null;
@@ -40,30 +28,29 @@ function requestHostOrigin(request: Request) {
   }
 }
 
-export function isSameOrigin(request: Request, environment = process.env.NODE_ENV) {
+export function isSameOrigin(request: Request, environment = "production", publicOrigin?: string) {
   const origin = canonicalOrigin(request.headers.get("origin"), false);
   if (!origin) return false;
 
-  // Railway forwards requests to an internal service address. Production must
-  // use the configured public origin and must not trust forwarded or Host
+  // Production must use the configured public origin, never forwarded or Host
   // headers. Local development may use the direct Host header because Next's
   // request URL can be canonicalized to localhost despite a 127.0.0.1 bind.
-  const expectedOrigin = environment === "production"
-    ? configuredPublicOrigin()
+  const expectedOrigin = environment !== "development"
+    ? canonicalOrigin(publicOrigin ?? null, true)
     : request.headers.has("host")
       ? requestHostOrigin(request)
       : canonicalOrigin(new URL(request.url).origin, false);
   return Boolean(expectedOrigin && origin === expectedOrigin);
 }
 
-export async function verifyTurnstile(token: unknown, remoteip?: string) {
-  if (typeof token !== "string" || !token) return false;
-  const secret = process.env.TURNSTILE_SECRET_KEY;
+export async function verifyTurnstile(token: unknown, secret: string, remoteip?: string) {
+  if (typeof token !== "string" || !token || token.length > 2048) return false;
   if (!secret) return false;
   try {
     const form = new URLSearchParams({ secret, response: token });
     if (remoteip) form.set("remoteip", remoteip);
     const response = await fetch("https://challenges.cloudflare.com/turnstile/v0/siteverify", { method: "POST", body: form, signal: AbortSignal.timeout(5000) });
-    return response.ok && Boolean((await response.json()).success);
+    const result: unknown = await response.json();
+    return response.ok && Boolean(result && typeof result === "object" && "success" in result && result.success === true);
   } catch { return false; }
 }

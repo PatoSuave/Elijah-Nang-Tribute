@@ -15,6 +15,9 @@ import {
 import type { IconType } from "react-icons";
 import { artist } from "@/content/artist";
 import MemorialBoard from "@/components/MemorialBoard";
+import { memorialConfig } from "@/lib/runtime-config";
+
+export const dynamic = "force-dynamic";
 
 const FEATURED_TRACK_URL =
   "https://soundcloud.com/elijahnang/ho-chi-minh-city-beat-255";
@@ -314,7 +317,7 @@ export default function Home() {
         </div>
       </section>
 
-      <MemorialBoard />
+      <MemorialBoard siteKey={memorialConfig().publicTurnstileSiteKey} />
 
       <section className="memorial-footer-art" aria-label="Memorial closing">
         <Image

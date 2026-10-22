@@ -1,0 +1,7 @@
+# Local Wrangler only. Copy to .dev.vars (ignored) and supply local values.
+# Production/staging use separate Wrangler vars and Worker secrets.
+NEXT_PUBLIC_TURNSTILE_SITE_KEY=
+TURNSTILE_SECRET_KEY=
+MEMORIAL_ADMIN_PASSWORD=
+MEMORIAL_ADMIN_SESSION_SECRET=
+MEMORIAL_RATE_LIMIT_SALT=

@@ -10,6 +10,7 @@
     "allowImportingTsExtensions": true,
     "skipLibCheck": true,
     "strict": true,
+    "types": ["@cloudflare/workers-types", "node"],
     "noEmit": true,
     "esModuleInterop": true,
     "module": "esnext",
@@ -33,11 +34,12 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    ".next/types/**/*.ts",
-    ".next/dev/types/**/*.ts",
     "**/*.mts"
   ],
   "exclude": [
-    "node_modules"
+    "node_modules",
+    ".next",
+    "dist",
+    "_local-operations"
   ]
 }

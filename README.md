@@ -1,6 +1,6 @@
 # Elijah Nang Tribute
 
-A memorial / archive website project for Elijah Nang, built for deployment with **GitHub + Railway** and implemented with **Next.js + TypeScript + Tailwind CSS**.
+A memorial / archive website for Elijah Nang, implemented with **Next.js-compatible App Router source, TypeScript and Tailwind CSS**, built with **vinext** for **Cloudflare Workers + D1**. GitHub remains the source repository.
 
 ## Project Goal
 Create a respectful, well-designed one-page site for **nangsoul.com** that serves as:
@@ -10,11 +10,11 @@ Create a respectful, well-designed one-page site for **nangsoul.com** that serve
 - a clean archive entry point for YouTube, Spotify, SoundCloud, and social platforms
 
 ## Suggested Stack
-- Next.js
+- Next.js App Router source + vinext
 - TypeScript
 - Tailwind CSS
 - GitHub
-- Railway
+- Cloudflare Workers, D1 and Turnstile
 
 ## Recommended Positioning
 This site should be framed as an **unofficial memorial archive** unless you have direct permission from family, collaborators, or the estate to present it otherwise.
@@ -54,12 +54,33 @@ A code-friendly folder or slug variation could be:
 
 ## Memorial messages setup
 
-The public message board uses PostgreSQL through server-only Route Handlers. Add a PostgreSQL service and the application service to the same Railway environment, then reference the database service's private `DATABASE_URL` variable from the application. Keep the database off a public TCP proxy. The service's `.railway/railway.ts` configuration runs `npm run db:migrate` before deployment. The runner takes a PostgreSQL advisory lock, records each applied SQL file in `schema_migrations`, and is safe to rerun. Do not expose `DATABASE_URL`, `TURNSTILE_SECRET_KEY`, `MEMORIAL_ADMIN_PASSWORD`, `MEMORIAL_ADMIN_SESSION_SECRET`, or `MEMORIAL_RATE_LIMIT_SALT` in browser variables.
+The public board uses the server-only `MEMORIAL_DB` D1 binding. `wrangler.jsonc` has separate local, staging and production databases. Apply `migrations/d1/` explicitly to the intended database. Worker secrets are `TURNSTILE_SECRET_KEY`, `MEMORIAL_ADMIN_PASSWORD`, `MEMORIAL_ADMIN_SESSION_SECRET` and `MEMORIAL_RATE_LIMIT_SALT`. Never put them in source, browser variables or build arguments.
 
-Create a Cloudflare Turnstile widget for the Railway hostname (and any approved custom domain) and use its site key as `NEXT_PUBLIC_TURNSTILE_SITE_KEY` and its secret as `TURNSTILE_SECRET_KEY`. Submissions are server-validated and rate-limited atomically in PostgreSQL to three per hour per salted client fingerprint; `MEMORIAL_RATE_LIMIT_SALT` is required. In production the application accepts only Railway's `X-Real-IP` client-IP header and rejects a submission if it is unavailable. Submissions are always stored as `pending`.
+Turnstile's public site key is read from Worker vars at request time and passed alone to the browser. Submissions are server-validated and limited to three per UTC hour per salted client fingerprint. A D1 batch transaction serializes duplicate detection, insertion and quota charging; failed writes roll back together. Identical submissions within ten minutes are rejected without using quota. New messages are always `pending`. Production trusts only Cloudflare's edge-controlled `CF-Connecting-IP`, never `X-Real-IP` or `X-Forwarded-For`.
 
-Set `MEMORIAL_PUBLIC_ORIGIN` to the exact public `https://` origin visitors use (for example, `https://nangsoul-web-staging.up.railway.app`). It is required in production: public submissions, admin sign-in, and moderation fail closed if it is missing or invalid. This protects same-origin and CSRF checks without trusting client-controlled forwarded-host headers.
+Set `MEMORIAL_PUBLIC_ORIGIN` to the exact public HTTPS origin visitors use. It is required in staging/production: submissions, admin sign-in and moderation fail closed if it is missing or invalid. Missing secrets and missing/malformed trusted IPs also fail closed. Only `MEMORIAL_ENVIRONMENT=local` enables loopback development behavior.
 
 Open `/admin/memorial` to sign in with `MEMORIAL_ADMIN_PASSWORD`. The page uses a signed, HttpOnly, Secure-in-production, SameSite-Strict session cookie. Approving or rejecting a message is authenticated server-side and additionally checks same-origin and a session-bound CSRF token. Only `approved` messages are returned by the public endpoint.
 
-Use `GET /api/health` as the Railway healthcheck path. It returns `200` only when the application can query PostgreSQL; it never returns database credentials or message data.
+`GET /api/health` returns `200` only when both D1 tables are queryable, otherwise `503`. It never returns credentials or message data.
+
+## Local development and checks
+
+Use Node 22 or newer (validated with Node 24). Run `npm ci`, copy `.dev.vars.example` to ignored `.dev.vars` for local secrets, then `npm run db:migrate` and `npm run dev`. Local migrations never target the remote databases.
+
+```text
+npm test
+npm run test:memorial:integration
+npm run typecheck
+npm run lint
+npm run build
+npm run test:worker
+```
+
+The integration suite runs real workerd/D1 in memory. The HTTP suite executes the built Worker with synthetic credentials and a mocked external Turnstile service, including login/CSRF/moderation. It cannot reach production data. Build before running it after source changes.
+
+## Deployment and migration
+
+See [DEPLOYMENT_CHECKLIST.md](DEPLOYMENT_CHECKLIST.md) and [docs/CLOUDFLARE_MIGRATION.md](docs/CLOUDFLARE_MIGRATION.md). `npm run build:staging` and `npm run build:production` select the corresponding environment. Deployment scripts reject a build from the wrong environment.
+
+The old PostgreSQL migration and Railway IaC are historical rollback references. Keep the old service on commit `e50f2c9` until reconciliation/cutover verification finishes; do not redeploy this Workers source to Railway. There is no PostgreSQL connection in the new runtime.
