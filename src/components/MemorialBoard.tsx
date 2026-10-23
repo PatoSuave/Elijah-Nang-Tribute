@@ -1,6 +1,6 @@
 "use client";
 
-import { FormEvent, useEffect, useRef, useState } from "react";
+import { FormEvent, useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { MEMORIAL_LIMITS } from "@/lib/memorial";
 
 type PublicMessage = { displayName: string; location: string | null; message: string; approvedAt: string | null };
@@ -23,6 +23,7 @@ declare global {
 
 const date = (value: string | null) => value ? new Intl.DateTimeFormat("en", { month: "long", year: "numeric" }).format(new Date(value)) : "";
 const TURNSTILE_SCRIPT_ID = "nangsoul-turnstile-script";
+const subscribeToReadiness = () => () => {};
 
 function submissionError(form: FormData, message: string) {
   const displayName = String(form.get("displayName") || "").trim();
@@ -42,6 +43,8 @@ async function responseJson(response: Response) {
 }
 
 export default function MemorialBoard({ siteKey }: { siteKey: string }) {
+  // Keep the server HTML and first hydration render inert until handlers exist.
+  const formReady = useSyncExternalStore(subscribeToReadiness, () => true, () => false);
   const [messages, setMessages] = useState<PublicMessage[]>([]); const [offset, setOffset] = useState(0); const [hasMore, setHasMore] = useState(false);
   const [messagesError, setMessagesError] = useState(""); const [messagesLoading, setMessagesLoading] = useState(false);
   const [message, setMessage] = useState(""); const [feedback, setFeedback] = useState(""); const [feedbackIsError, setFeedbackIsError] = useState(false); const [sending, setSending] = useState(false); const [turnstileToken, setTurnstileToken] = useState(""); const [captchaError, setCaptchaError] = useState("");
@@ -52,7 +55,12 @@ export default function MemorialBoard({ siteKey }: { siteKey: string }) {
   const fieldRefs = useRef<Record<string, HTMLElement | null>>({});
   const resetTurnstile = () => {
     setTurnstileToken("");
-    if (turnstileWidgetId.current) window.turnstile?.reset(turnstileWidgetId.current);
+    try {
+      if (turnstileWidgetId.current !== null) window.turnstile?.reset(turnstileWidgetId.current);
+    } catch {
+      // A widget failure must not hide the result of the submission request.
+      setCaptchaError("Verification could not be restarted. Before sending another message, copy any unsent text and refresh the page.");
+    }
   };
   const load = async (next = 0) => {
     if (messagesInFlight.current) return;
@@ -142,7 +150,7 @@ export default function MemorialBoard({ siteKey }: { siteKey: string }) {
 
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    if (submissionInFlight.current) return;
+    if (!formReady || submissionInFlight.current) return;
     const formElement = event.currentTarget;
     const form = new FormData(formElement);
     const validation = submissionError(form, message);
@@ -187,7 +195,10 @@ export default function MemorialBoard({ siteKey }: { siteKey: string }) {
   }
   return <section id="messages" className="memorial-board" aria-labelledby="messages-heading">
     <div className="memorial-intro"><p className="section-label">Memorial guestbook</p><h2 id="messages-heading">Messages for Elijah</h2><p>Leave a few words about Elijah, his music, or what his work has meant to you.</p></div>
-    <div className="memorial-layout"><form className="memorial-form" onSubmit={submit} noValidate><div><label htmlFor="displayName">Display Name</label><input id="displayName" name="displayName" required maxLength={60} autoComplete="name" ref={(element) => { fieldRefs.current.displayName = element; }} /></div><div><label htmlFor="location">Location <span>optional</span></label><input id="location" name="location" maxLength={80} autoComplete="address-level2" ref={(element) => { fieldRefs.current.location = element; }} /></div><div><label htmlFor="message">Message</label><textarea id="message" name="message" required maxLength={1000} value={message} onChange={(event) => setMessage(event.target.value)} ref={(element) => { fieldRefs.current.message = element; }} /><p className="character-count">{message.length} / 1000</p></div><div className="honeypot" aria-hidden="true"><label htmlFor="website">Website</label><input id="website" name="website" tabIndex={-1} autoComplete="off" /></div><label className="consent"><input type="checkbox" name="consent" required ref={(element) => { fieldRefs.current.consent = element; }} /> <span>By submitting this message, I understand that it may be published publicly on NangSoul after review.</span></label><p className="memorial-note">Please do not include private contact information or sensitive personal information in your message.</p><p className="memorial-note">Messages are reviewed before publication. Spam, advertising, hateful content, impersonation, private information, or messages unrelated to Elijah and his work may not be published.</p><div ref={turnstileMount} />{captchaError && <p className="form-feedback" role="alert">{captchaError}</p>}<button className="button-primary" disabled={sending || message.length > MEMORIAL_LIMITS.message} type="submit">{sending ? "Sending…" : "Send message"}</button><p className="form-feedback" role={feedbackIsError ? "alert" : "status"} aria-live={feedbackIsError ? "assertive" : "polite"}>{feedback}</p></form>
+    <div className="memorial-layout"><form className="memorial-form" action="/api/memorial/submissions" method="post" onSubmit={submit} noValidate>
+      {!formReady && <p className="form-feedback" role="status">Preparing the message form. If it stays unavailable, refresh the page.</p>}
+      <noscript><p className="form-feedback">Please enable JavaScript and reload the page to send a message.</p></noscript>
+      <fieldset className="memorial-form-fields" disabled={!formReady}><div><label htmlFor="displayName">Display Name</label><input id="displayName" name="displayName" required maxLength={60} autoComplete="name" ref={(element) => { fieldRefs.current.displayName = element; }} /></div><div><label htmlFor="location">Location <span>optional</span></label><input id="location" name="location" maxLength={80} autoComplete="address-level2" ref={(element) => { fieldRefs.current.location = element; }} /></div><div><label htmlFor="message">Message</label><textarea id="message" name="message" required maxLength={1000} value={message} onChange={(event) => setMessage(event.target.value)} ref={(element) => { fieldRefs.current.message = element; }} /><p className="character-count">{message.length} / 1000</p></div><div className="honeypot" aria-hidden="true"><label htmlFor="website">Website</label><input id="website" name="website" tabIndex={-1} autoComplete="off" /></div><label className="consent"><input type="checkbox" name="consent" required ref={(element) => { fieldRefs.current.consent = element; }} /> <span>By submitting this message, I understand that it may be published publicly on NangSoul after review.</span></label><p className="memorial-note">Please do not include private contact information or sensitive personal information in your message.</p><p className="memorial-note">Messages are reviewed before publication. Spam, advertising, hateful content, impersonation, private information, or messages unrelated to Elijah and his work may not be published.</p><div ref={turnstileMount} />{captchaError && <p className="form-feedback" role="alert">{captchaError}</p>}<button className="button-primary" disabled={sending || message.length > MEMORIAL_LIMITS.message} type="submit">{sending ? "Sending…" : "Send message"}</button></fieldset><p className="form-feedback" role={feedbackIsError ? "alert" : "status"} aria-live={feedbackIsError ? "assertive" : "polite"}>{feedback}</p></form>
       <div className="message-list" aria-live="polite">{messages.map((entry, index) => <article className="memorial-entry" key={`${entry.approvedAt}-${entry.displayName}-${index}`}><header><strong>{entry.displayName}</strong>{entry.location && <span>{entry.location}</span>}</header><p>{entry.message}</p><time dateTime={entry.approvedAt || undefined}>{date(entry.approvedAt)}</time></article>)}{messagesError && <div className="memorial-empty"><p>{messagesError}</p><button className="button-secondary" disabled={messagesLoading} onClick={() => load(0)} type="button">{messagesLoading ? "Trying again…" : "Try again"}</button></div>}{!messages.length && !messagesError && <p className="memorial-empty">{messagesLoading ? "Loading messages…" : "Approved messages will be preserved here."}</p>}{hasMore && <button className="button-secondary" disabled={messagesLoading} onClick={() => load(offset)} type="button">{messagesLoading ? "Loading…" : "Load more messages"}</button>}</div></div>
   </section>;
 }

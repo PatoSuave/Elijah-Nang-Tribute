@@ -829,7 +829,8 @@ iframe {
 }
 .memorial-intro > p:last-child, .memorial-note, .admin-page > p { color: rgba(239, 226, 197, .72); line-height: 1.7; }
 .memorial-layout { display: grid; grid-template-columns: minmax(17rem, .78fr) minmax(0, 1fr); gap: 4rem; margin-top: 2.25rem; }
-.memorial-form { display: grid; grid-template-columns: minmax(0, 1fr); gap: 1rem; min-width: 0; }
+.memorial-form, .memorial-form-fields { display: grid; grid-template-columns: minmax(0, 1fr); gap: 1rem; min-width: 0; }
+.memorial-form-fields { margin: 0; border: 0; padding: 0; }
 .memorial-form label, .admin-login label { display: block; color: var(--color-text-muted); font-size: .84rem; font-weight: 700; }
 .memorial-form label span { color: var(--color-text-dim); font-weight: 400; }
 .memorial-form input:not([type="checkbox"]), .memorial-form textarea, .admin-login input { width: 100%; margin-top: .45rem; border: 1px solid rgba(239,226,197,.22); border-radius: 0; background: rgba(11,13,8,.56); color: var(--color-text); font: inherit; padding: .75rem; }

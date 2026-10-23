@@ -71,6 +71,7 @@ Use Node 22 or newer (validated with Node 24). Run `npm ci`, copy `.dev.vars.exa
 ```text
 npm test
 npm run test:memorial:integration
+npm run test:memorial:client
 npm run typecheck
 npm run lint
 npm run build

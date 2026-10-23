@@ -10,6 +10,7 @@
     "start": "wrangler dev --config dist/server/wrangler.json",
     "lint": "eslint",
     "test": "node --test --experimental-strip-types src/lib/*.test.ts",
+    "test:memorial:client": "node --test --experimental-strip-types scripts/test-memorial-client.mjs",
     "test:memorial:integration": "node --experimental-strip-types scripts/test-memorial-integration.mjs",
     "test:worker": "node scripts/test-worker-http.mjs",
     "typecheck": "tsc --noEmit",
