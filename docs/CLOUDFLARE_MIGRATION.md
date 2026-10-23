@@ -1,5 +1,15 @@
 # NangSoul: Workers and D1 migration
 
+## Verified production release — October 23, 2026
+
+- Production is served by Cloudflare Worker `nangsoul` at `https://www.nangsoul.com`; the apex redirects to the canonical host with the path and query preserved. Administrator moderation is at `https://www.nangsoul.com/admin/memorial`.
+- Application release `c5159609d4f430ef106de62ec56fbe081d19047a` is deployed as Worker version `3ba243c0-15bd-4ee6-b61c-d4181847a344`, receiving 100% of traffic. This adds form readiness guards and preserves submission feedback when verification reset fails. The original intermittent report's trigger was not established; both guarded failure cases were reproduced and independently verified.
+- All five original messages (three approved, two rejected) and four original quota rows were imported and reconciled across every exported field. Released-site verification completed a real Turnstile submission, pending review, administrator approval and public display. Only the exact temporary production test messages and their isolated quotas were removed; final production data matched the source snapshot exactly.
+- Two later pending submissions remain preserved in staging, separate from the live moderation queue. Staging contains seven messages and five quota rows at this checkpoint; its original records still match the source.
+- Both Railway services have zero active deployments. The PostgreSQL recovery volume remains READY and is not pending deletion; private source/D1 snapshots and the native PostgreSQL archive remain outside Git. Archive listing and D1 reconciliation were verified; a full PostgreSQL restore rehearsal was not performed. Export and reconcile any new D1 messages before a rollback.
+- The obsolete Vercel Git deployment connection was disconnected. The temporary Railway SSH key was revoked and its absence from registered keys confirmed. Automatic approval review blocked deletion of its three local key files; those revoked copies remain outside Git.
+- Checks passed: six client regressions, fifteen unit tests, typecheck, lint, production build, six built-Worker HTTP groups, and independent browser checks for initial disabled controls, native Enter, hydrated validation, mobile layout, feedback, draft preservation and retry guards. After Railway shutdown, live health, public records, assets, security headers, canonical redirects and the 5% background brightness all passed.
+
 ## Runtime and environments
 
 Cloudflare currently recommends vinext for existing Next.js applications. This app uses vinext 1.3.0, Vite 8, React 19.3.1 and Next.js 16.3.8 types/source conventions. The compatibility check reported all used imports supported, with image resizing partial; the app already uses `images.unoptimized`. vinext remains beta, so an actual Workers preview and browser verification are required before cutover.

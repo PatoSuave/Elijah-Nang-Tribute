@@ -84,4 +84,4 @@ The integration suite runs real workerd/D1 in memory. The HTTP suite executes th
 
 See [DEPLOYMENT_CHECKLIST.md](DEPLOYMENT_CHECKLIST.md) and [docs/CLOUDFLARE_MIGRATION.md](docs/CLOUDFLARE_MIGRATION.md). `npm run build:staging` and `npm run build:production` select the corresponding environment. Deployment scripts reject a build from the wrong environment.
 
-The old PostgreSQL migration and Railway IaC are historical rollback references. Keep the old service on commit `e50f2c9` until reconciliation/cutover verification finishes; do not redeploy this Workers source to Railway. There is no PostgreSQL connection in the new runtime.
+The old PostgreSQL migration and Railway IaC are historical rollback references. Railway web and PostgreSQL compute were retired on October 23, 2026 after Cloudflare data reconciliation and live submission/moderation verification. The PostgreSQL volume and private backups remain available for recovery. The old application version is commit `e50f2c9`; do not redeploy this Workers source to Railway. There is no PostgreSQL connection in the new runtime. See the release record in `docs/CLOUDFLARE_MIGRATION.md`.
